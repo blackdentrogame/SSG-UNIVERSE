@@ -8998,6 +8998,7 @@
     }
     
     const BASE_URL = 'https://jupxnukljkzjdwgcqxut.supabase.co/storage/v1/object/public/brani';
+    const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     
     const albums = [
       {
@@ -9005,7 +9006,7 @@
         name: "NON É SSG",
         artist: "SSG",
         year: 2025,
-        cover: `./audio/NUOVO ALBUM/copertina album.jpeg`,
+        cover: `${BASE_URL}/NUOVO%20ALBUM/copertina%20album.jpeg`,
         tracks: [
           { id: 1, title: "Golead0r", url: `${BASE_URL}/NUOVO%20ALBUM/Golead0r.wav` },
           { id: 2, title: "GTA VI Master Mix", url: `${BASE_URL}/NUOVO%20ALBUM/gta%20viMastereMIX%20copia.wav` },
@@ -9018,7 +9019,7 @@
         name: "Testamento",
         artist: "SSG",
         year: 2024,
-        cover: `./audio/Testamento - ssg/copertina testamento.jpeg`,
+        cover: `${BASE_URL}/Testamento%20-%20ssg/copertina%20testamento.jpeg`,
         tracks: [
           { id: 1, title: "Solo Con Me", url: `${BASE_URL}/Testamento%20-%20ssg/Solo%20Con%20Me.mp3` },
           { id: 2, title: "Medicine E Malibu", url: `${BASE_URL}/Testamento%20-%20ssg/Medicine%20E%20Malibu.mp3` },
@@ -9031,7 +9032,7 @@
         name: "Coconut Ice Cream",
         artist: "SSG",
         year: 2024,
-        cover: `./audio/COCONUT ICE CREAM - SSG/1- Copertina coconut.jpeg`,
+        cover: `${BASE_URL}/COCONUT%20ICE%20CREAM%20-%20SSG/1-%20Copertina%20coconut.jpeg`,
         tracks: [
           { id: 1, title: "Un Anno", url: `${BASE_URL}/COCONUT%20ICE%20CREAM%20-%20SSG/%20Un%20Anno.mp3` },
           { id: 2, title: "Cocco Frutto", url: `${BASE_URL}/COCONUT%20ICE%20CREAM%20-%20SSG/Cocco%20Frutto.mp3` },
@@ -9050,7 +9051,7 @@
         name: "D.A.M.S.",
         artist: "SSG",
         year: 2025,
-        cover: `./audio/D.A.M.S. - SSG/Copertina dams.jpeg`,
+        cover: `${BASE_URL}/D.A.M.S.%20-%20SSG/Copertina%20dams.jpeg`,
         tracks: [
           { id: 1, title: "Demoni", url: `${BASE_URL}/D.A.M.S.%20-%20SSG/1-%20Demoni.mp3` },
           { id: 2, title: "DAMS-TERDAM", url: `${BASE_URL}/D.A.M.S.%20-%20SSG/2-%20DAMS-TERDAM.mp3` },
@@ -9067,7 +9068,7 @@
         name: "Giorni Migliori",
         artist: "SSG",
         year: 2025,
-        cover: `./audio/Giorni Migliori - SSG/copertina.png`,
+        cover: `${BASE_URL}/Giorni%20Migliori%20-%20SSG/copertina.png`,
         tracks: [
           { id: 1, title: "Ho perso", url: `${BASE_URL}/Giorni%20Migliori%20-%20SSG/Ho%20perso.mp3` },
           { id: 2, title: "In mezzo al traffico", url: `${BASE_URL}/Giorni%20Migliori%20-%20SSG/In%20mezzo%20al%20traffico%20.mp3` },
@@ -9086,7 +9087,7 @@
         name: "Lucciole",
         artist: "SSG",
         year: 2025,
-        cover: `./audio/LUCCIOLE - SSG/copertina lucciole.Jpg`,
+        cover: `${BASE_URL}/LUCCIOLE%20-%20SSG/copertina%20lucciole.Jpg`,
         tracks: [
           { id: 1, title: "Intro", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/1-%20Intro.mp3` },
           { id: 2, title: "Ci siamo Sciolti", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/2-%20Ci%20siamo%20Sciolti.mp3` },
@@ -9111,7 +9112,7 @@
         name: "Solo Avanzii",
         artist: "SSG",
         year: 2025,
-        cover: `./audio/SOLO AVANZI - SSG/Copertina Solo AvanzI.jpeg`,
+        cover: `${BASE_URL}/SOLO%20AVANZI%20-%20SSG/Copertina%20Solo%20Avanzi.jpeg`,
         tracks: [
           { id: 1, title: "Oh Marco", url: `${BASE_URL}/SOLO%20AVANZI%20-%20SSG/1-%20Oh%20Marco.mp3` },
           { id: 2, title: "Soli contro Tutti Rmx (feat Gigi)", url: `${BASE_URL}/SOLO%20AVANZI%20-%20SSG/2-%20Soli%20contro%20Tutti%20Rmx%20-%20feat%20Gigi.mp3` },
@@ -9128,7 +9129,7 @@
         name: "Singoli: Extra",
         artist: "SSG",
         year: 2025,
-        cover: `./audio/SINGOLI : EXTRA - SSG/copertina singoli.png`,
+        cover: `${BASE_URL}/SINGOLI%20:%20EXTRA%20-%20SSG/copertina%20singoli.png`,
         tracks: [
           { id: 1, title: "NBA Star", url: `${BASE_URL}/SINGOLI%20:%20EXTRA%20-%20SSG/1-%20NBA%20Star.wav` },
           { id: 2, title: "Natale in 4.20", url: `${BASE_URL}/SINGOLI%20:%20EXTRA%20-%20SSG/2-%20NATALE%20IN%204.20.wav` },
@@ -9279,8 +9280,7 @@
     let nextSongPreload = null;
     let prevSongPreload = null;
     const preloadCache = {};
-    const PRELOAD_CACHE_SIZE = IS_IOS ? 0 : 2; // Disable preload on iOS to prevent crashes
-    const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const PRELOAD_CACHE_SIZE = 2;
     let preloadQueue = [];
     let isPreloading = false;
     
