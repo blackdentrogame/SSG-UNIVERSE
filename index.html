@@ -6113,20 +6113,29 @@
     }
   </style>
 
-  <!-- PASSWORD SCREEN - EPIC GALAXY UNIVERSE -->
+  <!-- SIMPLIFIED MOBILE PASSWORD SCREEN -->
   <div id="password-screen" class="password-screen">
     <div class="cosmic-bg">
-      <!-- Dynamic Star Field -->
       <div class="starfield" id="starfield"></div>
-      
-      <!-- Multi-layer Nebula System -->
-      <div class="nebula-container">
-        <div class="nebula nb-1"></div>
-        <div class="nebula nb-2"></div>
-        <div class="nebula nb-3"></div>
-        <div class="nebula nb-4"></div>
-        <div class="nebula nb-5"></div>
+      <div class="nebula nb-1"></div>
+      <div class="nebula nb-2"></div>
+    </div>
+    
+    <div class="password-card">
+      <h2>SSG UNIVERSE</h2>
+      <div class="password-input-wrapper">
+        <input type="password" id="password-input" class="password-input" placeholder="PASSWORD" autocomplete="off">
+        <button class="password-toggle" onclick="togglePasswordVisibility()">
+          <i data-lucide="eye"></i>
+        </button>
       </div>
+      <button class="password-submit" onclick="validatePassword()">ENTER</button>
+      <div class="password-error" id="password-error">Access Denied</div>
+      <div class="password-loading" id="password-loading">
+        <div class="password-loading-bar"></div>
+      </div>
+    </div>
+  </div>
       
       <!-- Animated Galaxy Core -->
       <div class="galaxy-core">
@@ -6712,6 +6721,13 @@
       }
     }
     
+    function togglePasswordVisibility() {
+      const input = document.getElementById('password-input');
+      if (input) {
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+    }
+    
     document.addEventListener('DOMContentLoaded', () => {
       // Only preload covers (fast)
       preloadCovers();
@@ -6754,7 +6770,7 @@
   </script>
   
   <style>
-    /* EPIC COSMIC PASSWORD SCREEN */
+    /* SIMPLIFIED MOBILE PASSWORD SCREEN */
     .password-screen {
       position: fixed;
       top: 0;
@@ -6767,6 +6783,156 @@
       justify-content: center;
       transition: opacity 1s ease, visibility 1s ease;
       overflow: hidden;
+      background: linear-gradient(180deg, #0a0020 0%, #000005 100%);
+    }
+    
+    .cosmic-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .starfield {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .sf-star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: starTwinkle 3s ease-in-out infinite;
+    }
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    
+    .nebula {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.3;
+    }
+    .nb-1 { width: 300px; height: 300px; background: rgba(138, 43, 226, 0.4); top: -10%; right: -10%; }
+    .nb-2 { width: 250px; height: 250px; background: rgba(0, 191, 255, 0.3); bottom: -10%; left: -10%; }
+    
+    /* Password Card */
+    .password-card {
+      position: relative;
+      background: rgba(10, 5, 30, 0.95);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 20px;
+      padding: 40px 25px;
+      width: 90%;
+      max-width: 350px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+      z-index: 100;
+    }
+    .password-card h2 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    /* Password Input */
+    .password-input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .password-input {
+      width: 100%;
+      padding: 14px 45px 14px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+    .password-input:focus {
+      outline: none;
+      border-color: rgba(139, 92, 246, 0.8);
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      padding: 5px;
+    }
+    
+    .password-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .password-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+    }
+    
+    .password-error {
+      color: #ef4444;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 13px;
+      display: none;
+    }
+    .password-error.show {
+      display: block;
+      animation: shake 0.5s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    
+    .password-loading {
+      display: none;
+      margin-top: 15px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .password-loading.show { display: block; }
+    .password-loading-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #7c3aed, #a855f7, #7c3aed);
+      background-size: 200% 100%;
+      animation: loadingSlide 1.5s linear infinite;
+    }
+    @keyframes loadingSlide {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(400%); }
     }
     
     .cosmic-bg {
@@ -9080,7 +9246,7 @@
           { id: 3, title: "GNEGNEGNE", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/3-%20GNEGNEGNE.mp3` },
           { id: 4, title: "Preso a Botte", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/4-%20Preso%20a%20Botte.mp3` },
           { id: 5, title: "RIP Puozzo Car", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/5-%20RIP%20Puozzo%20Car.mp3` },
-          { id: 6, title: "Lucciole", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/6-%20Luciole.mp3` },
+          { id: 6, title: "Lucciole", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/6-%20Lucciole.mp3` },
           { id: 7, title: "7 Tikiardi", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/7%20tikiardi.mp3` },
           { id: 8, title: "Tavernello", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/8-%20Tavernello.mp3` },
           { id: 9, title: "Qme va", url: `${BASE_URL}/LUCCIOLE%20-%20SSG/9-%20Qme%20va.mp3` },
