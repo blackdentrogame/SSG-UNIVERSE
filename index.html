@@ -9776,48 +9776,13 @@
       if(grid) grid.innerHTML = content;
       if(musicGrid) musicGrid.innerHTML = content;
       
-      initAudioPreload();
       preloadCovers();
       
       refreshIcons();
     }
     
     function initAudioPreload() {
-      // Preload first 4 songs with smart preload for instant start
-      const initialCount = Math.min(4, songs.length);
-      for (let i = 0; i < initialCount; i++) {
-        smartPreload(i);
-      }
-      nextSongPreload = initialCount;
-      prevSongPreload = songs.length - 1;
-      
-      // Queue remaining songs for background preload
-      for (let i = initialCount; i < songs.length; i++) {
-        preloadQueue.push(i);
-      }
-      
-      // Start background preload scheduler
-      setTimeout(() => schedulePreload(), 500);
-    }
-    
-    function schedulePreload() {
-      if (isPreloading || preloadQueue.length === 0) return;
-      isPreloading = true;
-      
-      const idx = preloadQueue.shift();
-      if (idx !== undefined) {
-        smartPreload(idx);
-      }
-      
-      // Schedule next preload
-      if (preloadQueue.length > 0) {
-        setTimeout(() => {
-          isPreloading = false;
-          schedulePreload();
-        }, IS_IOS ? 800 : 400);
-      } else {
-        isPreloading = false;
-      }
+      // Preloading disabled
     }
 
     let currentAlbumIndex = -1;
