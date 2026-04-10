@@ -9327,9 +9327,15 @@
           if (!fullSongCache[index]) {
             loadFullSongInBackground(url, index);
           }
+        } else {
+          // Try fallback to Supabase
+          const fallbackUrl = getSupabaseUrl(url);
+          loadFullSongInBackground(fallbackUrl, index);
         }
       } catch (e) {
-        console.log('Segment load error:', e);
+        console.log('Segment load error, trying Supabase:', e);
+        const fallbackUrl = getSupabaseUrl(url);
+        loadFullSongInBackground(fallbackUrl, index);
       }
       
       return null;
@@ -9339,6 +9345,9 @@
       const fullAudio = new Audio();
       fullAudio.src = url;
       fullAudio.preload = 'auto';
+      fullAudio.onerror = () => {
+        console.log('Full song load failed for index', index);
+      };
       
       fullAudio.addEventListener('canplaythrough', () => {
         if (!fullSongCache[index]) {
@@ -9361,13 +9370,24 @@
       
       try {
         const response = await fetch(songUrl);
+        if (!response.ok) throw new Error('Fetch failed');
         const arrayBuffer = await response.arrayBuffer();
         const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
         audioBufferCache[index] = audioBuffer;
         return audioBuffer;
       } catch (e) {
-        console.log('Audio decode error:', e);
-        return null;
+        console.log('Local decode error, trying Supabase:', e);
+        const fallbackUrl = getSupabaseUrl(songUrl);
+        try {
+          const response = await fetch(fallbackUrl);
+          const arrayBuffer = await response.arrayBuffer();
+          const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+          audioBufferCache[index] = audioBuffer;
+          return audioBuffer;
+        } catch (e2) {
+          console.log('Fallback decode also failed:', e2);
+          return null;
+        }
       }
     }
     
@@ -10488,8 +10508,15 @@
       }
       
       const preloadAudio = new Audio();
-      preloadAudio.src = songs[idx].url;
+      const localUrl = songs[idx].url;
+      const fallbackUrl = getSupabaseUrl(localUrl);
+      preloadAudio.src = localUrl;
       preloadAudio.preload = 'auto';
+      preloadAudio.onerror = () => {
+        console.log('Local preload failed, trying Supabase...');
+        preloadAudio.src = fallbackUrl;
+        preloadAudio.load();
+      };
       
       // iOS optimization: force load
       if (IS_IOS) {
