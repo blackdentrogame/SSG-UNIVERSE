@@ -6136,6 +6136,22 @@
       </div>
     </div>
   </div>
+    
+    <div class="password-card">
+      <h2>SSG UNIVERSE</h2>
+      <div class="password-input-wrapper">
+        <input type="password" id="password-input" class="password-input" placeholder="PASSWORD" autocomplete="off">
+        <button class="password-toggle" onclick="togglePasswordVisibility()">
+          <i data-lucide="eye"></i>
+        </button>
+      </div>
+      <button class="password-submit" onclick="validatePassword()">ENTER</button>
+      <div class="password-error" id="password-error">Access Denied</div>
+      <div class="password-loading" id="password-loading">
+        <div class="password-loading-bar"></div>
+      </div>
+    </div>
+  </div>
       
       <!-- Animated Galaxy Core -->
       <div class="galaxy-core">
@@ -6400,98 +6416,6 @@
         <div class="dc dc-1"></div>
         <div class="dc dc-2"></div>
         <div class="dc dc-3"></div>
-      </div>
-    </div>
-    
-    <!-- Password Portal Card -->
-    <div class="password-portal" id="password-card">
-      <div class="portal-ring-outer"></div>
-      <div class="portal-ring-middle"></div>
-      <div class="portal-ring-inner"></div>
-      
-      <div class="portal-content">
-        <!-- Animated Logo -->
-        <div class="portal-logo">
-          <div class="pl-orbit-system">
-            <div class="pl-orbit pl-orbit-1">
-              <div class="pl-satellite"></div>
-            </div>
-            <div class="pl-orbit pl-orbit-2">
-              <div class="pl-satellite"></div>
-            </div>
-            <div class="pl-orbit pl-orbit-3">
-              <div class="pl-satellite"></div>
-            </div>
-          </div>
-          <div class="pl-hologram">
-            <div class="pl-holo-line"></div>
-            <div class="pl-holo-line"></div>
-            <div class="pl-holo-line"></div>
-          </div>
-          <div class="pl-text-container">
-            <h1 class="pl-text">SSG</h1>
-            <div class="pl-glow-text">SSG</div>
-          </div>
-          <div class="pl-subtitle">⚛ ENTER THE UNIVERSE ⚛</div>
-        </div>
-        
-        <!-- Password Form -->
-        <div class="portal-form">
-          <div class="pf-input-wrapper">
-            <div class="pf-input-glow"></div>
-            <div class="pf-input-border"></div>
-            <i data-lucide="key" class="pf-icon"></i>
-            <input type="password" id="password-input" class="pf-input" placeholder="••••••••" autocomplete="off">
-            <div class="pf-cursor"></div>
-          </div>
-          
-          <div class="pf-error" id="password-error">
-            <i data-lucide="alert-triangle"></i>
-            <span>Access Denied - Wrong Password</span>
-          </div>
-          
-          <button class="pf-button" id="pf-button" onclick="validatePassword()">
-            <span class="pfb-text">ACCESS UNIVERSE</span>
-            <span class="pfb-glow"></span>
-            <span class="pfb-particles"></span>
-            <i data-lucide="rocket" class="pfb-icon"></i>
-          </button>
-        </div>
-        
-        <!-- Portal Decorations -->
-        <div class="portal-decor">
-          <div class="pd-star pd-s1"></div>
-          <div class="pd-star pd-s2"></div>
-          <div class="pd-star pd-s3"></div>
-          <div class="pd-star pd-s4"></div>
-          <div class="pd-star pd-s5"></div>
-          <div class="pd-star pd-s6"></div>
-        </div>
-        
-        <!-- Energy Flow -->
-        <div class="energy-flow">
-          <div class="ef-particle"></div>
-          <div class="ef-particle"></div>
-          <div class="ef-particle"></div>
-          <div class="ef-particle"></div>
-          <div class="ef-particle"></div>
-        </div>
-      </div>
-      
-      <!-- Portal Glow Effect -->
-      <div class="portal-glow"></div>
-    </div>
-    
-    <!-- Loading Universe Progress -->
-    <div class="universe-loader" id="loading-progress">
-      <div class="ul-orbit">
-        <div class="ul-satellite"></div>
-      </div>
-      <div class="ul-text">INITIALIZING COSMOS...</div>
-      <div class="ul-bar">
-        <div class="ul-bar-fill"></div>
-      </div>
-    </div>
   </div>
 
   <script>
@@ -6667,18 +6591,9 @@
     
     function hidePasswordScreen() {
       const screen = document.getElementById('password-screen');
-      const progress = document.getElementById('loading-progress');
-      const card = document.getElementById('password-card');
-      
-      if (progress) progress.classList.add('hide');
-      if (card) card.classList.add('unlocking');
-      
-      screen.style.opacity = '0';
-      screen.style.pointerEvents = 'none';
-      
-      setTimeout(() => {
+      if (screen) {
         screen.style.display = 'none';
-      }, 1000);
+      }
     }
     
     function showPasswordError() {
@@ -6770,8 +6685,137 @@
   </script>
   
   <style>
-    /* SIMPLIFIED MOBILE PASSWORD SCREEN */
     .password-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #0a0020 0%, #000005 100%);
+    }
+    .cosmic-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .starfield {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .sf-star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: starTwinkle 3s ease-in-out infinite;
+    }
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    .nebula {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.3;
+    }
+    .nb-1 { width: 300px; height: 300px; background: rgba(138, 43, 226, 0.4); top: -10%; right: -10%; }
+    .nb-2 { width: 250px; height: 250px; background: rgba(0, 191, 255, 0.3); bottom: -10%; left: -10%; }
+    .password-card {
+      position: relative;
+      background: rgba(10, 5, 30, 0.95);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 20px;
+      padding: 40px 25px;
+      width: 90%;
+      max-width: 350px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+      z-index: 100;
+    }
+    .password-card h2 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .password-input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .password-input {
+      width: 100%;
+      padding: 14px 45px 14px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 2px;
+      box-sizing: border-box;
+    }
+    .password-input:focus {
+      outline: none;
+      border-color: rgba(139, 92, 246, 0.8);
+    }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+    }
+    .password-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .password-submit:hover {
+      opacity: 0.9;
+    }
+    .password-error {
+      color: #ef4444;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 13px;
+      display: none;
+    }
+    .password-error.show {
+      display: block;
+    }
+    .password-loading {
+      display: none;
+      margin-top: 15px;
+    }
+    .password-loading.show {
+      display: block;
+    }
+    .password-loading-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #7c3aed, #a855f7);
+      border-radius: 2px;
+    }
+  </style>
       position: fixed;
       top: 0;
       left: 0;
@@ -7942,8 +7986,7 @@
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
     }
-    
-    /* EPIC PORTAL CARD */
+  </style>
     .password-portal {
       position: relative;
       z-index: 10;
