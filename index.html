@@ -9202,57 +9202,8 @@
       });
     }
     
-    // Audio error handling for mobile with exponential backoff
-    let lastPlayedUrl = '';
+    // Play retry system
     let playRetryCount = 0;
-    let playRetryTimeout = null;
-    const MAX_PLAY_RETRIES = 5;
-    
-    function getRetryDelay(attempt) {
-      // Exponential backoff: 100ms, 200ms, 400ms, 800ms, 1600ms
-      const baseDelay = IS_IOS ? 150 : 100;
-      return Math.min(baseDelay * Math.pow(2, attempt), 2000);
-    }
-    
-    function resetPlayRetry() {
-      playRetryCount = 0;
-      if (playRetryTimeout) {
-        clearTimeout(playRetryTimeout);
-        playRetryTimeout = null;
-      }
-    }
-    
-    function retryPlay() {
-      if (playRetryCount >= MAX_PLAY_RETRIES) {
-        console.log('Max retries reached');
-        resetPlayRetry();
-        return;
-      }
-      
-      const delay = getRetryDelay(playRetryCount);
-      playRetryCount++;
-      
-      console.log(`Retry attempt ${playRetryCount} in ${delay}ms`);
-      
-      playRetryTimeout = setTimeout(() => {
-        if (audio.src) {
-          audio.load();
-          audio.play().then(() => {
-            resetPlayRetry();
-          }).catch(err => {
-            console.log('Retry failed:', err);
-            retryPlay();
-          });
-        }
-      }, delay);
-    }
-    
-    audio.addEventListener('error', (e) => {
-      console.log('Audio error:', e);
-      if (audio.src && !audio.paused) {
-        retryPlay();
-      }
-    });
     
     audio.addEventListener('canplay', () => {
       resetPlayRetry();
@@ -9273,7 +9224,6 @@
     let db = null;
     
     // Simple retry system
-    let playRetryCount = 0;
     const MAX_PLAY_RETRIES = 3;
     
     function retryPlay() {
@@ -9303,14 +9253,6 @@
         coverCache.delete(firstKey);
       }
       coverCache.set(url, img);
-    }
-    
-    function preloadCovers() {
-      albums.forEach(album => {
-        const img = new Image();
-        img.src = album.cover;
-        cacheCover(album.cover, img);
-      });
     }
 
     // IndexedDB for persistence
