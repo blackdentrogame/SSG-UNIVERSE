@@ -3,10 +3,11 @@ const urlsToCache = [
   '/SSG-UNIVERSE/',
   '/SSG-UNIVERSE/index.html',
   '/SSG-UNIVERSE/icon-192.png',
-  '/SSG-UNIVERSE/icon-512.png'
+  '/SSG-UNIVERSE/icon-512.png',
+  '/SSG-UNIVERSE/cover.jpg',
+  '/SSG-UNIVERSE/ssg-logo.jpeg'
 ];
 
-// Install event
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -15,7 +16,6 @@ self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
-// Activate event
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -31,53 +31,22 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - for network requests
 self.addEventListener('fetch', event => {
+  if (event.request.url.includes('supabase.co') || 
+      event.request.url.includes('.mp3') || 
+      event.request.url.includes('.wav')) {
+    return;
+  }
+  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        if (response) {
-          return response;
-        }
+        if (response) return response;
         return fetch(event.request);
       })
   );
 });
 
-// Media Session API handlers
-self.addEventListener('play', event => {
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ type: 'PLAY' });
-    });
-  });
-});
-
-self.addEventListener('pause', event => {
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ type: 'PAUSE' });
-    });
-  });
-});
-
-self.addEventListener('previoustrack', event => {
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ type: 'PREV' });
-    });
-  });
-});
-
-self.addEventListener('nexttrack', event => {
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ type: 'NEXT' });
-    });
-  });
-});
-
-// Handle messages from main thread
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'UPDATE_MEDIA_SESSION') {
     const { title, artist, album, artwork, isPlaying } = event.data;
