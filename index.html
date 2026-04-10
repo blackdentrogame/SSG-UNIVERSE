@@ -8939,12 +8939,6 @@
       return localPath;
     }
     
-    function getSupabaseUrl(localPath) {
-      const filename = localPath.split('/').pop();
-      const folder = localPath.replace('./audio/', '').replace('/' + filename, '');
-      return `${SUPABASE_URL}/${encodeURIComponent(folder)}/${encodeURIComponent(filename)}`;
-    }
-    
     const VIDEO_BASE = 'https://jupxnukljkzjdwgcqxut.supabase.co/storage/v1/object/public/brani/video';
     
     const videos = [
@@ -9277,190 +9271,46 @@
     let addToPlaylistSongIndex = null;
     let audioInitialized = false;
     let db = null;
-    let nextSongPreload = null;
-    let prevSongPreload = null;
-    const preloadCache = {};
-    const PRELOAD_CACHE_SIZE = 2;
-    let preloadQueue = [];
-    let isPreloading = false;
     
-    // Smart segment loading - disabled on iOS
-    const fullSongCache = {};
-    const AUDIO_SEGMENT_SIZE = IS_IOS ? 0 : 102400;
-    let currentSegmentLoad = null;
+    // Simple retry system
+    let playRetryCount = 0;
+    const MAX_PLAY_RETRIES = 3;
     
-    // Web Audio API - disabled on iOS to prevent crashes
-    let audioContext = null;
-    const audioBufferCache = {};
-    const AUDIO_BUFFER_CACHE_SIZE = 0;
-    
-    function getAudioContext() {
-      if (!audioContext) {
-        try {
-          audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        } catch (e) {
-          console.log('Web Audio API not supported');
-        }
+    function retryPlay() {
+      if (playRetryCount >= MAX_PLAY_RETRIES) {
+        console.log('Max retries reached');
+        playRetryCount = 0;
+        return;
       }
-      return audioContext;
+      playRetryCount++;
+      setTimeout(() => {
+        audio.load();
+        audio.play().catch(() => retryPlay());
+      }, 500 * playRetryCount);
     }
     
-    async function loadAudioSegment(url, index) {
-      // Cancel any pending segment load
-      if (currentSegmentLoad) {
-        currentSegmentLoad.cancel = true;
-      }
-      
-      const loadId = { cancel: false };
-      currentSegmentLoad = loadId;
-      
-      try {
-        // First: Load quick segment for instant playback
-        const segmentResponse = await fetch(url, {
-          headers: { 'Range': `bytes=0-${AUDIO_SEGMENT_SIZE - 1}` },
-          priority: 'high'
-        });
-        
-        if (loadId.cancel) return null;
-        
-        if (segmentResponse.ok) {
-          console.log('Quick segment loaded for song', index);
-          // Keep full load in background
-          if (!fullSongCache[index]) {
-            loadFullSongInBackground(url, index);
-          }
-        } else {
-          // Try fallback to Supabase
-          const fallbackUrl = getSupabaseUrl(url);
-          loadFullSongInBackground(fallbackUrl, index);
-        }
-      } catch (e) {
-        console.log('Segment load error, trying Supabase:', e);
-        const fallbackUrl = getSupabaseUrl(url);
-        loadFullSongInBackground(fallbackUrl, index);
-      }
-      
-      return null;
+    function resetPlayRetry() {
+      playRetryCount = 0;
     }
     
-    function loadFullSongInBackground(url, index) {
-      const fullAudio = new Audio();
-      fullAudio.src = url;
-      fullAudio.preload = 'auto';
-      fullAudio.onerror = () => {
-        console.log('Full song load failed for index', index);
-      };
-      
-      fullAudio.addEventListener('canplaythrough', () => {
-        if (!fullSongCache[index]) {
-          fullSongCache[index] = fullAudio;
-          console.log('Full song cached:', index);
-        }
-      }, { once: true });
-      
-      fullAudio.load();
+    // Cover cache
+    const coverCache = new Map();
+    const COVER_CACHE_SIZE = 10;
+    
+    function cacheCover(url, img) {
+      if (coverCache.size >= COVER_CACHE_SIZE) {
+        const firstKey = coverCache.keys().next().value;
+        coverCache.delete(firstKey);
+      }
+      coverCache.set(url, img);
     }
     
-    async function decodeAudioForCache(songUrl, index) {
-      if (audioBufferCache[index]) return audioBufferCache[index];
-      if (Object.keys(audioBufferCache).length >= AUDIO_BUFFER_CACHE_SIZE) {
-        delete audioBufferCache[Object.keys(audioBufferCache)[0]];
-      }
-      
-      const ctx = getAudioContext();
-      if (!ctx) return null;
-      
-      try {
-        const response = await fetch(songUrl);
-        if (!response.ok) throw new Error('Fetch failed');
-        const arrayBuffer = await response.arrayBuffer();
-        const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-        audioBufferCache[index] = audioBuffer;
-        return audioBuffer;
-      } catch (e) {
-        console.log('Local decode error, trying Supabase:', e);
-        const fallbackUrl = getSupabaseUrl(songUrl);
-        try {
-          const response = await fetch(fallbackUrl);
-          const arrayBuffer = await response.arrayBuffer();
-          const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-          audioBufferCache[index] = audioBuffer;
-          return audioBuffer;
-        } catch (e2) {
-          console.log('Fallback decode also failed:', e2);
-          return null;
-        }
-      }
-    }
-    
-    function playFromBuffer(index) {
-      const ctx = getAudioContext();
-      const buffer = audioBufferCache[index];
-      if (!ctx || !buffer) return false;
-      
-      try {
-        if (this.source) {
-          this.source.stop();
-          this.source.disconnect();
-        }
-        this.source = ctx.createBufferSource();
-        this.source.buffer = buffer;
-        this.source.connect(ctx.destination);
-        this.source.start(0);
-        return true;
-      } catch (e) {
-        console.log('Buffer play error:', e);
-        return false;
-      }
-    }
-    
-    function preloadAudioBuffer(index) {
-      if (audioBufferCache[index]) return;
-      const song = songs[index];
-      if (song) {
-        // Priority fetch for faster loading
-        fetchWithPriority(song.url, index);
-      }
-    }
-    
-    async function fetchWithPriority(url, index) {
-      try {
-        // Try Range request first for faster metadata download
-        const headers = { 'Range': 'bytes=0-102400' }; // First 100KB
-        
-        const response = await fetch(url, { 
-          headers,
-          priority: 'high'
-        });
-        
-        if (response.ok) {
-          const arrayBuffer = await response.arrayBuffer();
-          const ctx = getAudioContext();
-          if (ctx) {
-            const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-            audioBufferCache[index] = audioBuffer;
-          }
-        }
-      } catch (e) {
-        // Fallback to normal decode
-        decodeAudioForCache(url, index);
-      }
-    }
-    
-    function smartPreload(index) {
-      // Preload with range request for instant start
-      const song = songs[index];
-      if (!song) return;
-      
-      // Create audio element for quick start
-      const tempAudio = new Audio();
-      tempAudio.preload = 'metadata';
-      tempAudio.src = song.url;
-      tempAudio.load();
-      preloadCache[index] = tempAudio;
-      
-      // Also decode full buffer
-      setTimeout(() => decodeAudioForCache(song.url, index), 0);
+    function preloadCovers() {
+      albums.forEach(album => {
+        const img = new Image();
+        img.src = album.cover;
+        cacheCover(album.cover, img);
+      });
     }
 
     // IndexedDB for persistence
@@ -10436,69 +10286,6 @@
         });
       }
     }
-    
-    function preloadNextSong(currentIdx) {
-      let nextIdx, prevIdx;
-      if (isRepeat && currentIdx === songs.length - 1) {
-        nextIdx = 0;
-      } else if (isShuffle) {
-        nextIdx = Math.floor(Math.random() * songs.length);
-        while (nextIdx === currentIdx && songs.length > 1) {
-          nextIdx = Math.floor(Math.random() * songs.length);
-        }
-      } else {
-        nextIdx = currentIdx + 1;
-        if (nextIdx >= songs.length) nextIdx = 0;
-      }
-      prevIdx = (currentIdx - 1 + songs.length) % songs.length;
-      
-      if (nextSongPreload !== nextIdx) {
-        nextSongPreload = nextIdx;
-        preloadSong(nextIdx);
-        preloadAudioBuffer(nextIdx);
-      }
-      if (prevSongPreload !== prevIdx) {
-        prevSongPreload = prevIdx;
-        preloadSong(prevIdx);
-        preloadAudioBuffer(prevIdx);
-      }
-    }
-    
-    function preloadSong(idx, highPriority = false) {
-      if (preloadCache[idx] && !highPriority) return;
-      
-      // Remove oldest if cache full
-      if (Object.keys(preloadCache).length >= PRELOAD_CACHE_SIZE) {
-        const oldestKey = Object.keys(preloadCache)[0];
-        delete preloadCache[oldestKey];
-      }
-      
-      const preloadAudio = new Audio();
-      const localUrl = songs[idx].url;
-      const fallbackUrl = getSupabaseUrl(localUrl);
-      preloadAudio.src = localUrl;
-      preloadAudio.preload = 'auto';
-      preloadAudio.onerror = () => {
-        console.log('Local preload failed, trying Supabase...');
-        preloadAudio.src = fallbackUrl;
-        preloadAudio.load();
-      };
-      
-      // iOS optimization: force load
-      if (IS_IOS) {
-        preloadAudio.addEventListener('canplaythrough', function onReady() {
-          preloadAudio.removeEventListener('canplaythrough', onReady);
-        }, { once: true });
-      }
-      
-      preloadAudio.load();
-      preloadCache[idx] = preloadAudio;
-      
-      // Also load full song in background for next time
-      if (!fullSongCache[idx]) {
-        loadFullSongInBackground(songs[idx].url, idx);
-      }
-    }
 
     function updatePlayIcons() {
       const playIcon = document.getElementById('play-icon');
@@ -10690,10 +10477,7 @@
         // Only preload if different from current prediction
         if (nextIdx !== predictedNextIdx) {
           predictedNextIdx = nextIdx;
-          console.log('Predictive preload: song', nextIdx);
-          preloadSong(nextIdx, true);
-          preloadAudioBuffer(nextIdx);
-          decodeAudioForCache(songs[nextIdx].url, nextIdx);
+          console.log('Next song:', nextIdx);
         }
       }
     });
