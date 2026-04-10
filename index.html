@@ -6136,22 +6136,6 @@
       </div>
     </div>
   </div>
-    
-    <div class="password-card">
-      <h2>SSG UNIVERSE</h2>
-      <div class="password-input-wrapper">
-        <input type="password" id="password-input" class="password-input" placeholder="PASSWORD" autocomplete="off">
-        <button class="password-toggle" onclick="togglePasswordVisibility()">
-          <i data-lucide="eye"></i>
-        </button>
-      </div>
-      <button class="password-submit" onclick="validatePassword()">ENTER</button>
-      <div class="password-error" id="password-error">Access Denied</div>
-      <div class="password-loading" id="password-loading">
-        <div class="password-loading-bar"></div>
-      </div>
-    </div>
-  </div>
       
       <!-- Animated Galaxy Core -->
       <div class="galaxy-core">
@@ -9139,6 +9123,8 @@
   
   <script>
     const SUPABASE_URL = 'https://jupxnukljkzjdwgcqxut.supabase.co/storage/v1/object/public/brani';
+    const BASE_URL = SUPABASE_URL;
+    const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     
     const VIDEO_BASE = 'https://jupxnukljkzjdwgcqxut.supabase.co/storage/v1/object/public/brani/video';
     
@@ -9191,9 +9177,6 @@
         videoEl.src = '';
       }
     }
-    
-    const BASE_URL = 'https://jupxnukljkzjdwgcqxut.supabase.co/storage/v1/object/public/brani';
-    const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     
     const albums = [
       {
