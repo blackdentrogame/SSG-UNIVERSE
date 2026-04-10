@@ -6713,12 +6713,9 @@
     }
     
     document.addEventListener('DOMContentLoaded', () => {
-      // Start preloading immediately
+      // Only preload covers (fast)
       preloadCovers();
-      // Only preload audio on non-iOS to prevent crashes
-      if (!IS_IOS) {
-        initAudioPreload();
-      }
+      // No audio preload - load on demand only
       
       // Create dynamic star field for password screen
       const starfield = document.getElementById('starfield');
@@ -10416,27 +10413,9 @@
       playRetryCount = 0;
       lastPlayedUrl = song.url;
       
-      const localUrl = song.url;
-      const fallbackUrl = getSupabaseUrl(song.url);
-      let usingFallback = false;
-      
-      // Simple loading - no complex caching on iOS
+      // Simple direct load
       audio.src = song.url;
       audio.load();
-      
-      // Only use caching on non-iOS devices
-      if (!IS_IOS) {
-        if (fullSongCache[index]) {
-          console.log('Using full cached song:', index);
-        } else if (preloadCache[index]) {
-          console.log('Using preload cache:', index);
-        }
-        // Start decoding audio buffer in background
-        setTimeout(() => {
-          preloadAudioBuffer(index);
-        }, 0);
-      }
-      
       const playPromise = audio.play();
       
       const randomColor = generateRandomColor();
@@ -10446,29 +10425,11 @@
       
       showToast({ ...song, cover: coverImg });
       
-      // Disable next song preload on iOS
-      if (!IS_IOS) {
-        preloadNextSong(index);
-      }
-      
-      // Fallback: if local fails after 2 seconds, try Supabase
-      const fallbackTimer = setTimeout(() => {
-        if (audio.paused && !usingFallback) {
-          console.log('Local audio failed, trying Supabase...');
-          usingFallback = true;
-          audio.src = fallbackUrl;
-          audio.load();
-          audio.play().catch(() => {});
-        }
-      }, 2000);
-      
-      // Use centralized retry system
+      // Retry on error
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          clearTimeout(fallbackTimer);
           resetPlayRetry();
         }).catch(err => {
-          console.log('Play error:', err);
           retryPlay();
         });
       }
