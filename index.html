@@ -8929,15 +8929,7 @@
   <audio id="audio-player"></audio>
   
   <script>
-    // Use LOCAL audio files (faster) or SUPABASE as fallback
-    const USE_LOCAL_AUDIO = true;
-    const LOCAL_AUDIO_URL = './audio';
     const SUPABASE_URL = 'https://jupxnukljkzjdwgcqxut.supabase.co/storage/v1/object/public/brani';
-    
-    function getTrackUrl(localPath) {
-      if (!USE_LOCAL_AUDIO) return localPath.replace('./audio/', SUPABASE_URL + '/');
-      return localPath;
-    }
     
     const VIDEO_BASE = 'https://jupxnukljkzjdwgcqxut.supabase.co/storage/v1/object/public/brani/video';
     
@@ -9243,18 +9235,6 @@
       playRetryCount = 0;
     }
     
-    // Cover cache
-    const coverCache = new Map();
-    const COVER_CACHE_SIZE = 10;
-    
-    function cacheCover(url, img) {
-      if (coverCache.size >= COVER_CACHE_SIZE) {
-        const firstKey = coverCache.keys().next().value;
-        coverCache.delete(firstKey);
-      }
-      coverCache.set(url, img);
-    }
-
     // IndexedDB for persistence
     const DB_NAME = 'SSGUniverseDB';
     const DB_VERSION = 1;
