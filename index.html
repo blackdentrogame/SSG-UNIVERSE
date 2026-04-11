@@ -94,6 +94,7 @@
         animation: none !important;
         transition: none !important;
         transform: none !important;
+        backdrop-filter: none !important;
       }
       .card,
       .card-img,
@@ -122,47 +123,146 @@
       .floating-particle,
       .constellation-svg,
       .bg-stars,
-      .star {
+      .star,
+      .sidebar,
+      .sidebar-toggle,
+      .bg-orb,
+      .decor-circle,
+      .full-bg-orb,
+      .full-star,
+      .bg-glow,
+      .toast,
+      .audio-visualizer {
         display: none !important;
       }
       .nebula,
       .blob {
-        filter: blur(200px);
-        opacity: 0.05;
-      }
-      .bg-glow {
         display: none !important;
       }
       .card {
-        background: rgba(25, 25, 45, 0.95) !important;
+        background: #19192d !important;
         border: 1px solid rgba(6, 182, 212, 0.12) !important;
       }
       .card:hover {
-        transform: none !important;
-        background: rgba(35, 35, 55, 0.98) !important;
+        background: #232340 !important;
       }
       .card-img {
         box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
       }
       .featured-container {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.85) 0%, rgba(185, 28, 28, 0.9) 100%) !important;
-        box-shadow: 0 10px 40px rgba(239, 68, 68, 0.3) !important;
+        background: #7f1d1d !important;
       }
       .playlist-hero {
-        background: rgba(25, 25, 45, 0.95) !important;
+        background: #19192d !important;
         box-shadow: none !important;
       }
       .playlist-card {
-        background: rgba(25, 25, 45, 0.95) !important;
+        background: #19192d !important;
         border: 1px solid rgba(6, 182, 212, 0.12) !important;
       }
       .playlist-card:hover {
-        transform: none !important;
-        background: rgba(35, 35, 55, 0.98) !important;
+        background: #232340 !important;
       }
       .modal-content {
-        background: rgba(20, 20, 40, 0.99) !important;
+        background: #141428 !important;
         box-shadow: none !important;
+      }
+      .main-content {
+        padding: 16px !important;
+        padding-bottom: 180px !important;
+      }
+      .section-title {
+        font-size: 20px !important;
+      }
+      .player-bar {
+        height: 70px !important;
+        padding: 8px 12px !important;
+      }
+      .pb-cover {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 8px !important;
+      }
+      .pb-info {
+        max-width: 120px !important;
+      }
+      .pb-title {
+        font-size: 13px !important;
+      }
+      .pb-artist {
+        font-size: 11px !important;
+      }
+      .pb-controls {
+        gap: 16px !important;
+      }
+      .pb-btn {
+        width: 36px !important;
+        height: 36px !important;
+      }
+      .pb-btn-main {
+        width: 44px !important;
+        height: 44px !important;
+      }
+      .pb-btn-main i {
+        width: 20px !important;
+        height: 20px !important;
+      }
+      .pb-progress {
+        bottom: 68px !important;
+        padding: 0 16px !important;
+      }
+      .pp-bar {
+        height: 4px !important;
+      }
+      .pp-thumb {
+        width: 10px !important;
+        height: 10px !important;
+      }
+      .album-track-item,
+      .playlist-song-item,
+      .liked-view-songs .track-item {
+        padding: 10px 12px !important;
+        margin-bottom: 6px !important;
+      }
+      .album-track-item img,
+      .playlist-song-item img {
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 8px !important;
+      }
+      .album-view-container,
+      .playlist-view-container,
+      .liked-view-container {
+        padding: 16px !important;
+        padding-bottom: 180px !important;
+      }
+      .album-view-header,
+      .playlist-view-header,
+      .liked-view-header {
+        padding: 16px !important;
+        border-radius: 16px !important;
+        flex-wrap: wrap !important;
+      }
+      .album-view-cover {
+        width: 100px !important;
+        height: 100px !important;
+      }
+      .album-view-title {
+        font-size: 22px !important;
+      }
+      .play-album-btn {
+        width: 48px !important;
+        height: 48px !important;
+      }
+      .play-album-btn i {
+        width: 20px !important;
+        height: 20px !important;
+      }
+      .sidebar {
+        display: none !important;
+      }
+      .app-container {
+        margin-left: 0 !important;
       }
     }
     
@@ -5929,103 +6029,22 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background: 
-        radial-gradient(ellipse at 50% 50%, rgba(30, 0, 60, 0.9) 0%, transparent 70%),
-        linear-gradient(180deg, #000015 0%, #0a0020 50%, #050010 100%);
-      overflow: hidden;
+      background: linear-gradient(180deg, #0a0020 0%, #050015 100%);
     }
     
-    .loading-stars {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-    .ls-star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: lsTwinkle 2s ease-in-out infinite;
-    }
-    @keyframes lsTwinkle {
-      0%, 100% { opacity: 0.3; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.2); }
-    }
-    
-    .loading-nebula {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.4;
-      animation: lnFloat 10s ease-in-out infinite;
-    }
-    .ln-1 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(138, 43, 226, 0.5) 0%, transparent 70%);
-      top: -100px;
-      right: -100px;
-    }
-    .ln-2 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(0, 150, 255, 0.4) 0%, transparent 70%);
-      bottom: -50px;
-      left: -50px;
-      animation-delay: -5s;
-    }
-    @keyframes lnFloat {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(20px, -15px) scale(1.1); }
+    .loading-stars, .loading-nebula {
+      display: none;
     }
     
     .loading-content {
       position: relative;
       z-index: 10;
       text-align: center;
-      padding: 40px;
+      padding: 30px;
     }
     
     .loading-logo {
-      margin-bottom: 50px;
-    }
-    .ll-orbit {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 20px;
-      position: relative;
-      animation: llOrbitSpin 4s linear infinite;
-    }
-    .ll-orbit-ring {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 2px dashed rgba(6, 182, 212, 0.4);
-      border-radius: 50%;
-      top: 0;
-      left: 0;
-    }
-    .ll-orbit-ring-2 {
-      width: 120px;
-      height: 120px;
-      top: 15px;
-      left: 15px;
-      border-color: rgba(139, 92, 246, 0.3);
-      animation-direction: reverse;
-    }
-    .ll-satellite {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: linear-gradient(135deg, #06b6d4, #22d3ee);
-      border-radius: 50%;
-      top: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 0 20px #06b6d4;
-    }
-    @keyframes llOrbitSpin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      margin-bottom: 40px;
     }
     
     .ll-text {
@@ -6036,17 +6055,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.5));
-      animation: llTextPulse 2s ease-in-out infinite;
-    }
-    @keyframes llTextPulse {
-      0%, 100% { filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.5)); }
-      50% { filter: drop-shadow(0 0 50px rgba(139, 92, 246, 0.7)); }
     }
     
     .loading-bar-container {
       width: 280px;
-      margin: 0 auto 30px;
+      margin: 0 auto 20px;
     }
     .loading-progress-track {
       width: 100%;
@@ -6054,7 +6067,7 @@
       background: rgba(255, 255, 255, 0.1);
       border-radius: 3px;
       overflow: hidden;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     .loading-progress-fill {
       height: 100%;
@@ -6062,7 +6075,6 @@
       background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899);
       border-radius: 3px;
       transition: width 0.3s ease;
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
     }
     .loading-status {
       font-size: 14px;
@@ -6072,44 +6084,7 @@
     }
     
     .loading-tips {
-      margin-top: 20px;
-    }
-    .lt-item {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.4);
-      animation: ltFade 3s ease-in-out infinite;
-    }
-    @keyframes ltFade {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.8; }
-    }
-    
-    /* Mobile Loading Screen */
-    @media (max-width: 600px) {
-      .loading-content {
-        padding: 20px;
-      }
-      .ll-orbit {
-        width: 100px;
-        height: 100px;
-      }
-      .ll-orbit-ring-2 {
-        width: 80px;
-        height: 80px;
-        top: 10px;
-        left: 10px;
-      }
-      .ll-satellite {
-        width: 8px;
-        height: 8px;
-        top: -4px;
-      }
-      .ll-text {
-        font-size: 36px;
-      }
-      .loading-bar-container {
-        width: 220px;
-      }
+      display: none;
     }
   </style>
 
@@ -6679,68 +6654,38 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, #0a0020 0%, #000005 100%);
+      background: linear-gradient(180deg, #0a0020 0%, #050015 100%);
     }
     .cosmic-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      display: none;
     }
-    .starfield {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-    .sf-star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: starTwinkle 3s ease-in-out infinite;
-    }
-    @keyframes starTwinkle {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-    .nebula {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.3;
-    }
-    .nb-1 { width: 300px; height: 300px; background: rgba(138, 43, 226, 0.4); top: -10%; right: -10%; }
-    .nb-2 { width: 250px; height: 250px; background: rgba(0, 191, 255, 0.3); bottom: -10%; left: -10%; }
     .password-card {
       position: relative;
-      background: rgba(10, 5, 30, 0.95);
-      border: 2px solid rgba(139, 92, 246, 0.3);
-      border-radius: 20px;
-      padding: 40px 25px;
+      background: rgba(15, 10, 35, 0.98);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      border-radius: 16px;
+      padding: 30px 20px;
       width: 90%;
-      max-width: 350px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+      max-width: 320px;
       z-index: 100;
     }
     .password-card h2 {
-      color: #fff;
+      color: #06b6d4;
       text-align: center;
-      margin-bottom: 25px;
-      font-size: 20px;
+      margin-bottom: 20px;
+      font-size: 18px;
       font-weight: 600;
-      text-transform: uppercase;
       letter-spacing: 2px;
     }
     .password-input-wrapper {
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .password-input {
       width: 100%;
-      padding: 14px 45px 14px 16px;
+      padding: 14px 45px 14px 14px;
       background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(139, 92, 246, 0.3);
+      border: 1px solid rgba(6, 182, 212, 0.3);
       border-radius: 10px;
       color: #fff;
       font-size: 16px;
@@ -6750,7 +6695,7 @@
     }
     .password-input:focus {
       outline: none;
-      border-color: rgba(139, 92, 246, 0.8);
+      border-color: #06b6d4;
     }
     .password-toggle {
       position: absolute;
@@ -6761,24 +6706,22 @@
       border: none;
       color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
+      padding: 4px;
     }
     .password-submit {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
       border: none;
       border-radius: 10px;
       color: white;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      text-transform: uppercase;
-    }
-    .password-submit:hover {
-      opacity: 0.9;
+      letter-spacing: 1px;
     }
     .password-error {
-      color: #ef4444;
+      color: #f87171;
       text-align: center;
       margin-top: 12px;
       font-size: 13px;
@@ -6789,14 +6732,14 @@
     }
     .password-loading {
       display: none;
-      margin-top: 15px;
+      margin-top: 12px;
     }
     .password-loading.show {
       display: block;
     }
     .password-loading-bar {
       height: 3px;
-      background: linear-gradient(90deg, #7c3aed, #a855f7);
+      background: linear-gradient(90deg, #06b6d4, #8b5cf6);
       border-radius: 2px;
     }
   </style>
