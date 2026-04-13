@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ssg-universe-v6';
+const CACHE_NAME = 'ssg-universe-v7';
 const urlsToCache = [
   '/SSG-UNIVERSE/',
   '/SSG-UNIVERSE/index.html',

@@ -139,29 +139,64 @@
         right: 10px !important;
         width: auto !important;
         height: 70px !important;
-        background: #0f0f1a !important;
-        border: 1px solid rgba(6, 182, 212, 0.25) !important;
+        background: linear-gradient(135deg, #0f0f1a 0%, #12121f 100%) !important;
+        border: 1px solid rgba(6, 182, 212, 0.3) !important;
         border-radius: 16px !important;
         padding: 0 !important;
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
+        justify-content: space-between !important;
         z-index: 1000 !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 4px 25px rgba(0,0,0,0.6), 0 0 15px rgba(6,182,212,0.1) !important;
         overflow: visible !important;
+      }
+      .player-info {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+        padding: 10px 8px 10px 12px !important;
+      }
+      .player-info img {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 10px !important;
+        object-fit: cover !important;
+        flex-shrink: 0 !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+      }
+      .player-title {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100px !important;
+      }
+      .player-artist {
+        font-size: 11px !important;
+        color: rgba(255,255,255,0.6) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100px !important;
       }
       .player-controls {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        gap: 0 !important;
-        flex-shrink: 0 !important;
-        padding: 0 0 0 8px !important;
+        justify-content: center !important;
+        gap: 2px !important;
+        flex: 1 !important;
       }
       .mp-btn {
-        width: 28px !important;
-        height: 28px !important;
-        background: transparent !important;
+        width: 30px !important;
+        height: 30px !important;
+        background: rgba(255,255,255,0.08) !important;
         border: none !important;
         border-radius: 50% !important;
         display: flex !important;
@@ -179,10 +214,11 @@
         height: 14px !important;
       }
       .mp-btn-play {
-        width: 36px !important;
-        height: 36px !important;
-        background: #06b6d4 !important;
+        width: 40px !important;
+        height: 40px !important;
+        background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
         border-radius: 50% !important;
+        box-shadow: 0 3px 12px rgba(6,182,212,0.4) !important;
       }
       .mp-btn-play i {
         width: 16px !important;
@@ -192,59 +228,26 @@
       .mp-btn-play:active {
         background: #0891b2 !important;
       }
-      .player-info {
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-        flex: 1 !important;
-        min-width: 0 !important;
-        overflow: hidden !important;
-        padding: 10px 50px 10px 8px !important;
-      }
-      .player-info img {
-        width: 50px !important;
-        height: 50px !important;
-        border-radius: 8px !important;
-        object-fit: cover !important;
-        flex-shrink: 0 !important;
-      }
-      .player-title {
-        font-size: 13px !important;
-        font-weight: 600 !important;
-        color: #fff !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-      }
-      .player-artist {
-        font-size: 11px !important;
-        color: rgba(255,255,255,0.6) !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-      }
       .player-close-btn {
-        position: absolute !important;
-        top: 4px !important;
-        right: 6px !important;
-        width: 24px !important;
-        height: 24px !important;
-        background: rgba(255,255,255,0.1) !important;
-        border: none !important;
-        border-radius: 50% !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        width: 32px !important;
+        height: 32px !important;
+        margin-right: 8px !important;
+        background: rgba(255,255,255,0.08) !important;
+        border: none !important;
+        border-radius: 50% !important;
         color: rgba(255,255,255,0.7) !important;
         cursor: pointer !important;
-        z-index: 10 !important;
+        flex-shrink: 0 !important;
       }
       .player-close-btn:active {
-        background: rgba(255,255,255,0.2) !important;
+        background: rgba(255,255,255,0.15) !important;
       }
       .player-close-btn i {
-        width: 12px !important;
-        height: 12px !important;
+        width: 14px !important;
+        height: 14px !important;
       }
 
       /* App Container */
@@ -264,40 +267,42 @@
       .mobile-header {
         display: flex !important;
         align-items: center;
-        padding: 12px 0 !important;
-        margin-bottom: 16px !important;
-        border-bottom: 1px solid rgba(6, 182, 212, 0.2) !important;
+        padding: 16px 0 !important;
+        margin-bottom: 20px !important;
+        border-bottom: 1px solid rgba(6, 182, 212, 0.15) !important;
       }
       .mh-logo {
         display: flex !important;
         align-items: center;
-        gap: 12px !important;
+        gap: 14px !important;
       }
       .mh-icon {
-        width: 48px !important;
-        height: 48px !important;
+        width: 52px !important;
+        height: 52px !important;
         background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
         border-radius: 14px !important;
         display: flex !important;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 4px 15px rgba(6,182,212,0.3) !important;
       }
       .mh-icon i {
         color: white !important;
-        width: 26px !important;
-        height: 26px !important;
+        width: 28px !important;
+        height: 28px !important;
       }
       .mh-text {
         display: flex !important;
         flex-direction: column !important;
-        gap: 2px !important;
+        gap: 3px !important;
       }
       .mh-title {
         font-family: 'Space Grotesk', sans-serif !important;
-        font-size: 22px !important;
+        font-size: 24px !important;
         font-weight: 800 !important;
         color: #fff !important;
         line-height: 1 !important;
+        text-shadow: 0 2px 10px rgba(6,182,212,0.2) !important;
       }
       .mh-sub {
         font-family: 'Space Grotesk', sans-serif !important;
@@ -312,34 +317,39 @@
         font-size: 18px !important;
         font-weight: 700 !important;
         color: #fff !important;
-        margin-bottom: 16px !important;
-        padding-left: 12px !important;
+        margin-bottom: 18px !important;
+        padding-left: 14px !important;
         border-left: 3px solid #06b6d4 !important;
+        text-shadow: 0 1px 5px rgba(6,182,212,0.2) !important;
       }
 
       /* Section */
       .section {
-        margin-bottom: 28px !important;
+        margin-bottom: 32px !important;
       }
 
-      /* Grid - 2 COLONNE GRANDE */
+      /* Grid - 2 COLONNE */
       .grid {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 16px !important;
+        gap: 14px !important;
       }
 
-      /* Cards - GRIGLIA GRANDE COME PRIMA */
+      /* Cards - STILE MIGLIORATO */
       .card {
-        background: #12121e !important;
-        border: 1px solid rgba(6, 182, 212, 0.12) !important;
-        border-radius: 14px !important;
+        background: linear-gradient(145deg, #12121e 0%, #0f0f1a 100%) !important;
+        border: 1px solid rgba(6, 182, 212, 0.15) !important;
+        border-radius: 16px !important;
         padding: 0 !important;
         overflow: hidden !important;
         cursor: pointer !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
       }
       .card:hover {
-        background: #1a1a2a !important;
+        background: linear-gradient(145deg, #1a1a2a 0%, #14141f 100%) !important;
+        border-color: rgba(6, 182, 212, 0.25) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
       }
       .card-img {
         width: 100% !important;
@@ -349,7 +359,7 @@
         object-fit: cover !important;
       }
       .card-info {
-        padding: 12px !important;
+        padding: 14px !important;
         overflow: hidden !important;
       }
       .card-title {
@@ -377,25 +387,27 @@
 
       /* Playlist Hero */
       .playlist-hero {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(185, 28, 28, 0.2)) !important;
-        border: 1px solid rgba(239, 68, 68, 0.3) !important;
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.35) 0%, rgba(168, 85, 247, 0.15) 50%, rgba(6, 182, 212, 0.2) 100%) !important;
+        border: 1px solid rgba(239, 68, 68, 0.4) !important;
         border-radius: 20px !important;
-        padding: 20px !important;
+        padding: 22px !important;
         gap: 16px !important;
-        margin-bottom: 24px !important;
+        margin-bottom: 28px !important;
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2) !important;
       }
       .playlist-hero-icon {
-        width: 72px !important;
-        height: 72px !important;
+        width: 76px !important;
+        height: 76px !important;
         background: linear-gradient(135deg, #ef4444, #ec4899) !important;
-        border-radius: 16px !important;
+        border-radius: 18px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3) !important;
       }
       .playlist-hero-icon i {
-        width: 36px !important;
-        height: 36px !important;
+        width: 38px !important;
+        height: 38px !important;
         color: white !important;
       }
       .playlist-hero-info {
@@ -408,7 +420,7 @@
         letter-spacing: 1px !important;
       }
       .playlist-hero-title {
-        font-size: 18px !important;
+        font-size: 20px !important;
         font-weight: 700 !important;
         color: #fff !important;
         margin: 4px 0 !important;
@@ -420,10 +432,11 @@
 
       /* Playlist Cards */
       .playlist-card {
-        background: #12121e !important;
-        border: 1px solid rgba(6, 182, 212, 0.15) !important;
+        background: linear-gradient(145deg, #12121e 0%, #0f0f1a 100%) !important;
+        border: 1px solid rgba(6, 182, 212, 0.18) !important;
         border-radius: 16px !important;
         padding: 0 !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
       }
       .playlist-card-img {
         width: 100% !important;
@@ -432,8 +445,9 @@
       }
       .playlist-card-title {
         font-size: 13px !important;
-        padding: 12px !important;
+        padding: 14px !important;
         color: #fff !important;
+        font-weight: 500 !important;
       }
 
       /* Player Bar */
