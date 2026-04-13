@@ -7869,6 +7869,10 @@
     let playerVisible = false;
     let isShuffle = false;
     let isRepeat = false;
+    let isSongSwitching = false;
+    let pendingSongIndex = -1;
+    let lastSongSwitchTime = 0;
+    const SONG_SWITCH_COOLDOWN = 300;
     const audio = document.getElementById('audio-player');
     const player = document.getElementById('player');
     
@@ -8884,6 +8888,19 @@
     }
 
     function playSong(index) {
+      const now = Date.now();
+      if (isSongSwitching) {
+        pendingSongIndex = index;
+        return;
+      }
+      if (now - lastSongSwitchTime < SONG_SWITCH_COOLDOWN) {
+        pendingSongIndex = index;
+        return;
+      }
+      
+      isSongSwitching = true;
+      lastSongSwitchTime = now;
+      
       if (!cachedDOM.cards) {
         cachedDOM.cards = document.querySelectorAll('.card');
       } else {
@@ -8902,26 +8919,32 @@
       playRetryCount = 0;
       lastPlayedUrl = song.url;
       
-      // Simple direct load
+      audio.pause();
       audio.src = song.url;
       audio.load();
-      const playPromise = audio.play();
       
       const randomColor = generateRandomColor();
       lastAppliedColor = randomColor;
       applyPlayerColorsFast(randomColor);
       updatePlayIcons();
       
-      showToast({ ...song, cover: coverImg });
-      
-      // Retry on error
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          resetPlayRetry();
-        }).catch(err => {
-          retryPlay();
-        });
-      }
+      audio.play().then(() => {
+        isSongSwitching = false;
+        resetPlayRetry();
+        if (pendingSongIndex !== -1 && pendingSongIndex !== index) {
+          const nextIdx = pendingSongIndex;
+          pendingSongIndex = -1;
+          playSong(nextIdx);
+        }
+      }).catch(err => {
+        isSongSwitching = false;
+        retryPlay();
+        if (pendingSongIndex !== -1 && pendingSongIndex !== index) {
+          const nextIdx = pendingSongIndex;
+          pendingSongIndex = -1;
+          playSong(nextIdx);
+        }
+      });
     }
 
     function updatePlayIcons() {
@@ -8943,7 +8966,7 @@
         audio.pause();
         document.querySelectorAll('.card').forEach(c => c.classList.remove('playing'));
       } else {
-        audio.play();
+        audio.play().catch(() => {});
         const cards = document.querySelectorAll('.card');
         if (cards[currentIndex]) cards[currentIndex].classList.add('playing');
       }
@@ -8954,31 +8977,31 @@
     }
 
     function nextSong() {
+      if (isSongSwitching) return;
       if (isRepeat && isPlaying) {
         audio.currentTime = 0;
-        audio.play();
+        audio.play().catch(() => {});
       } else {
+        let newIndex;
         if (isShuffle) {
-          let newIndex;
           do {
             newIndex = Math.floor(Math.random() * songs.length);
           } while (newIndex === currentIndex && songs.length > 1);
-          currentIndex = newIndex;
         } else {
-          currentIndex = (currentIndex + 1) % songs.length;
+          newIndex = (currentIndex + 1) % songs.length;
         }
-        playSong(currentIndex);
+        playSong(newIndex);
       }
     }
 
     function prevSong() {
-      // If more than 3 seconds in, restart current song
+      if (isSongSwitching) return;
       if (audio.currentTime > 3) {
         audio.currentTime = 0;
         return;
       }
-      currentIndex = (currentIndex - 1 + songs.length) % songs.length;
-      playSong(currentIndex);
+      const newIndex = (currentIndex - 1 + songs.length) % songs.length;
+      playSong(newIndex);
     }
 
     function toggleShuffle() {
@@ -9082,8 +9105,9 @@
     let predictedNextIdx = -1;
     
     audio.addEventListener('timeupdate', () => {
+      if (isSongSwitching) return;
       const now = Date.now();
-      if (now - lastTimeUpdate < 200) return; // Throttle to 5fps for performance
+      if (now - lastTimeUpdate < 250) return;
       lastTimeUpdate = now;
       
       const percent = (audio.currentTime / audio.duration) * 100 || 0;
@@ -9094,29 +9118,6 @@
       if (cachedDOM.duration) cachedDOM.duration.textContent = formatTime(audio.duration || 0);
       if (cachedDOM.fullCurrentTime) cachedDOM.fullCurrentTime.textContent = formatTime(audio.currentTime);
       if (cachedDOM.fullDuration) cachedDOM.fullDuration.textContent = formatTime(audio.duration || 0);
-      
-      // Predictive preload: when 15 seconds remaining, preload next song aggressively
-      const remaining = audio.duration - audio.currentTime;
-      if (remaining > 0 && remaining <= 15 && currentIndex >= 0) {
-        let nextIdx;
-        if (isRepeat && currentIndex === songs.length - 1) {
-          nextIdx = 0;
-        } else if (isShuffle) {
-          nextIdx = Math.floor(Math.random() * songs.length);
-          while (nextIdx === currentIndex && songs.length > 1) {
-            nextIdx = Math.floor(Math.random() * songs.length);
-          }
-        } else {
-          nextIdx = currentIndex + 1;
-          if (nextIdx >= songs.length) nextIdx = 0;
-        }
-        
-        // Only preload if different from current prediction
-        if (nextIdx !== predictedNextIdx) {
-          predictedNextIdx = nextIdx;
-          console.log('Next song:', nextIdx);
-        }
-      }
     });
 
     const searchInput = document.getElementById('search-input');
