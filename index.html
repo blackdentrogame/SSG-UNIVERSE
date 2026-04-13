@@ -131,6 +131,122 @@
         display: none !important;
       }
 
+      /* MOBILE MINI PLAYER - SEMPLICE */
+      .player-bar {
+        position: fixed !important;
+        bottom: 90px !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        height: 70px !important;
+        background: #0f0f1a !important;
+        border: 1px solid rgba(6, 182, 212, 0.25) !important;
+        border-radius: 16px !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        z-index: 1000 !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+        overflow: visible !important;
+      }
+      .player-info {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        flex: 1 !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+        padding: 10px 12px !important;
+      }
+      .player-info img {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 8px !important;
+        object-fit: cover !important;
+        flex-shrink: 0 !important;
+      }
+      .player-title {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .player-artist {
+        font-size: 11px !important;
+        color: rgba(255,255,255,0.6) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .player-controls {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 0 !important;
+        flex-shrink: 0 !important;
+        padding: 0 50px 0 8px !important;
+      }
+      .mp-btn {
+        width: 34px !important;
+        height: 34px !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #fff !important;
+        cursor: pointer !important;
+        padding: 0 !important;
+      }
+      .mp-btn:active {
+        background: rgba(255,255,255,0.15) !important;
+      }
+      .mp-btn i {
+        width: 17px !important;
+        height: 17px !important;
+      }
+      .mp-btn-play {
+        width: 44px !important;
+        height: 44px !important;
+        background: #06b6d4 !important;
+        border-radius: 50% !important;
+      }
+      .mp-btn-play i {
+        width: 20px !important;
+        height: 20px !important;
+        color: #fff !important;
+      }
+      .mp-btn-play:active {
+        background: #0891b2 !important;
+      }
+      .player-close-btn {
+        position: absolute !important;
+        top: 6px !important;
+        right: 6px !important;
+        width: 26px !important;
+        height: 26px !important;
+        background: rgba(255,255,255,0.15) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #fff !important;
+        cursor: pointer !important;
+        z-index: 10 !important;
+      }
+      .player-close-btn:active {
+        background: rgba(255,255,255,0.25) !important;
+      }
+      .player-close-btn i {
+        width: 14px !important;
+        height: 14px !important;
+      }
+
       /* App Container */
       .app-container {
         margin-left: 0 !important;
@@ -321,127 +437,29 @@
       }
 
       /* Player Bar */
-      .player-bar {
-        height: 80px !important;
-        padding: 8px 6px !important;
-        background: #0a0a14 !important;
-        border-top: 1px solid rgba(6, 182, 212, 0.2) !important;
-        z-index: 100 !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 4px !important;
-      }
-      .player-close-btn {
-        width: 32px !important;
-        height: 32px !important;
-        background: rgba(255,255,255,0.1) !important;
-        border: none !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        color: rgba(255,255,255,0.6) !important;
-        flex-shrink: 0 !important;
-        margin-right: 2px !important;
-      }
-      .player-close-btn:active {
-        background: rgba(255,255,255,0.2) !important;
-      }
-      .player-close-btn i {
-        width: 16px !important;
-        height: 16px !important;
-      }
-      .player-controls {
-        display: flex !important;
-        align-items: center !important;
-        gap: 0 !important;
-        flex-shrink: 0 !important;
-      }
-      .p-btn {
-        width: 32px !important;
-        height: 32px !important;
-        color: #fff !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background: none !important;
-        border: none !important;
-      }
-      .p-btn i {
-        width: 16px !important;
-        height: 16px !important;
-      }
-      .p-btn.play-main {
-        width: 38px !important;
-        height: 38px !important;
-        background: #06b6d4 !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin: 0 2px !important;
-      }
-      .p-btn.play-main i {
-        width: 16px !important;
-        height: 16px !important;
-        color: #fff !important;
-      }
       .player-info {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
         flex: 1 !important;
         min-width: 0 !important;
-        overflow: hidden !important;
-        margin-left: 4px !important;
       }
       .pb-cover {
-        width: 52px !important;
-        height: 52px !important;
-        border-radius: 8px !important;
-        flex-shrink: 0 !important;
-        object-fit: cover !important;
+        width: 56px !important;
+        height: 56px !important;
+        border-radius: 10px !important;
       }
       .pb-title {
-        font-size: 13px !important;
-        font-weight: 600 !important;
+        font-size: 14px !important;
         color: #fff !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
       }
       .pb-artist {
-        font-size: 11px !important;
-        color: rgba(255,255,255,0.5) !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
+        font-size: 12px !important;
+        color: rgba(255,255,255,0.6) !important;
       }
-      .progress-container,
       .volume-box,
-      .visualizer,
-      .control-btns {
+      .visualizer {
         display: none !important;
       }
       .pb-progress {
-        bottom: 158px !important;
-        padding: 0 6px !important;
-        z-index: 100 !important;
-      }
-      .pp-bar {
-        height: 4px !important;
-        background: rgba(255,255,255,0.1) !important;
-        border-radius: 2px !important;
-      }
-      .pp-fill {
-        background: #06b6d4 !important;
-        border-radius: 2px !important;
-      }
-      .pp-thumb {
-        width: 12px !important;
-        height: 12px !important;
-        background: #06b6d4 !important;
-        border-radius: 50% !important;
+        bottom: 148px !important;
       }
 
       /* Album/Playlist/Liked View */
@@ -541,7 +559,7 @@
         color: rgba(255,255,255,0.4) !important;
       }
 
-      /* Mobile Bottom Nav - SOLO ICONE */
+      /* Mobile Bottom Nav - SOLO ICONE GRANDE */
       .mobile-nav {
         display: flex !important;
         position: fixed !important;
@@ -588,8 +606,8 @@
         background: rgba(6, 182, 212, 0.15) !important;
       }
       .mobile-nav-item i {
-        width: 32px !important;
-        height: 32px !important;
+        width: 52px !important;
+        height: 52px !important;
       }
       .mobile-nav-item {
         flex: 1 !important;
@@ -626,8 +644,8 @@
         background: rgba(6, 182, 212, 0.15) !important;
       }
       .mobile-nav-item i {
-        width: 26px !important;
-        height: 26px !important;
+        width: 52px !important;
+        height: 52px !important;
       }
       .mobile-nav-item span {
         font-weight: 600 !important;
@@ -5535,110 +5553,6 @@
       }
       .mobile-nav { display: flex; }
       .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
-      
-      /* MINI PLAYER MOBILE - INFO + PULSANTI */
-      .player-bar {
-        width: calc(100% - 20px);
-        left: 10px;
-        transform: translateZ(0);
-        backface-visibility: hidden;
-        will-change: transform, opacity;
-        padding: 8px 12px !important;
-        height: 68px !important;
-        bottom: 105px !important;
-        z-index: 900;
-        background: rgba(15, 15, 30, 0.98) !important;
-        border: 1px solid rgba(6, 182, 212, 0.3) !important;
-        border-radius: 20px !important;
-        box-shadow: 0 -4px 25px rgba(0,0,0,0.5), 0 0 20px rgba(6, 182, 212, 0.15) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        cursor: pointer;
-      }
-      .player-info { 
-        display: flex !important; 
-        align-items: center !important;
-        gap: 10px !important;
-        width: auto !important;
-        flex: 0 0 auto !important;
-      }
-      .player-info img {
-        width: 48px !important;
-        height: 48px !important;
-        border-radius: 10px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
-      }
-      .player-title { 
-        font-size: 13px !important; 
-        max-width: 70px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-      }
-      .player-artist { 
-        font-size: 11px !important; 
-        max-width: 70px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-      }
-      .progress-container { display: none !important; }
-      .volume-box { display: none !important; }
-      .visualizer { display: none !important; }
-      .player-controls { 
-        width: auto !important; 
-        flex: 0 0 auto !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-      .control-btns { 
-        gap: 16px !important;
-        display: flex !important;
-        align-items: center !important;
-      }
-      .shuffle-repeat-btn {
-        min-width: 24px !important;
-        min-height: 24px !important;
-        padding: 3px !important;
-        background: rgba(255,255,255,0.08) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        border-radius: 50% !important;
-      }
-      .p-btn {
-        min-width: 24px !important;
-        min-height: 24px !important;
-        padding: 3px !important;
-        background: rgba(255,255,255,0.08) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        border-radius: 50% !important;
-      }
-      .p-btn.play-main {
-        width: 38px !important;
-        height: 38px !important;
-        background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
-        border: none !important;
-        box-shadow: 0 3px 12px rgba(6, 182, 212, 0.5) !important;
-      }
-      .p-btn i {
-        width: 11px !important;
-        height: 11px !important;
-      }
-      .shuffle-repeat-btn i {
-        width: 9px !important;
-        height: 9px !important;
-      }
-      .shuffle-repeat-btn.active {
-        background: rgba(6, 182, 212, 0.4) !important;
-        border-color: rgba(6, 182, 212, 0.6) !important;
-        box-shadow: 0 0 15px rgba(6, 182, 212, 0.6) !important;
-      }
-      .shuffle-repeat-btn.active i {
-        color: #22d3ee !important;
-        filter: drop-shadow(0 0 4px rgba(6, 182, 212, 0.8)) !important;
-      }
-      
       /* FULL PLAYER MOBILE - BIGGER & BEAUTIFUL */
       .full-player {
         background: linear-gradient(180deg, #0a0f18 0%, #050810 50%, #030508 100%) !important;
@@ -6171,6 +6085,16 @@
         background: #0a0a14 !important;
         overflow-y: auto !important;
         z-index: 50 !important;
+      }
+      .liked-view-container::before, .playlist-view-container::before, .album-view-container::before {
+        content: '' !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: #0a0a14 !important;
+        z-index: -1 !important;
       }
       .liked-view-hearts,
       .album-view-stars,
@@ -7689,19 +7613,10 @@
     </div>
   </div>
 
-  <div class="player-bar" id="player" style="display:none; opacity:0; transition: opacity 0.5s ease;" onclick="if(event.target.closest('.player-controls') || event.target.closest('.player-close-btn')) return; openFullPlayer();">
-    <button class="player-close-btn" onclick="event.stopPropagation(); closeMiniPlayer()">
+  <div class="player-bar" id="player" style="display:none; opacity:0; transition: opacity 0.5s ease;">
+    <button class="player-close-btn" onclick="closeMiniPlayer()">
       <i data-lucide="x"></i>
     </button>
-    <div class="player-controls">
-      <button class="p-btn" onclick="event.stopPropagation(); toggleShuffle()"><i data-lucide="shuffle"></i></button>
-      <button class="p-btn" onclick="event.stopPropagation(); prevSong()"><i data-lucide="skip-back"></i></button>
-      <button class="p-btn play-main" onclick="event.stopPropagation(); togglePlay()">
-        <span id="play-icon" class="play-icon-container"></span>
-      </button>
-      <button class="p-btn" onclick="event.stopPropagation(); nextSong()"><i data-lucide="skip-forward"></i></button>
-      <button class="p-btn" onclick="event.stopPropagation(); toggleRepeat()"><i data-lucide="repeat"></i></button>
-    </div>
     <div class="player-info" id="player-info" onclick="openFullPlayer()" style="cursor:pointer">
       <img id="player-cover" src="" alt="">
       <div>
@@ -7709,21 +7624,14 @@
         <div class="player-artist" id="player-artist"></div>
       </div>
     </div>
-    <div class="volume-box">
-      <button class="p-btn" onclick="showAddToPlaylistModal(currentIndex)" style="background:none; border:none; cursor:pointer;">
-        <i data-lucide="list-plus" style="color:var(--text-dim)"></i>
+    <div class="player-controls">
+      <button class="mp-btn" id="btn-shuffle" onclick="toggleShuffle()"><i data-lucide="shuffle"></i></button>
+      <button class="mp-btn" onclick="prevSong()"><i data-lucide="skip-back"></i></button>
+      <button class="mp-btn mp-btn-play" onclick="togglePlay()">
+        <span id="play-icon" class="play-icon-container"></span>
       </button>
-      <i data-lucide="volume-2" style="width:18px; color:var(--text-dim)"></i>
-      <input type="range" min="0" max="1" step="0.01" value="0.8" oninput="setVolume(this.value)">
-    </div>
-    <div class="visualizer" id="visualizer">
-      <div class="visualizer-bar"></div>
-      <div class="visualizer-bar"></div>
-      <div class="visualizer-bar"></div>
-      <div class="visualizer-bar"></div>
-      <div class="visualizer-bar"></div>
-      <div class="visualizer-bar"></div>
-      <div class="visualizer-bar"></div>
+      <button class="mp-btn" onclick="nextSong()"><i data-lucide="skip-forward"></i></button>
+      <button class="mp-btn" id="btn-repeat" onclick="toggleRepeat()"><i data-lucide="repeat"></i></button>
     </div>
   </div>
 
