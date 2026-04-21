@@ -6102,7 +6102,7 @@
         padding-bottom: 200px !important;
         background: #08080f !important;
         overflow-y: auto !important;
-        z-index: 50 !important;
+        z-index: 100 !important;
       }
       .liked-view-container::before, .playlist-view-container::before, .album-view-container::before {
         content: '' !important;
@@ -8552,21 +8552,10 @@
       const song = songs.find(s => s.album === album.name && s.title === track.title);
       
       if (song) {
-        currentIndex = song.id - 1;
-        const fullSong = songs[currentIndex];
-        audio.src = fullSong.url;
-        
-        const randomColor = generateRandomColor();
-        lastAppliedColor = randomColor;
-        applyPlayerColorsFast(randomColor);
-        updatePlayIcons();
-        
-        audio.play().then(() => {
-          isPlaying = true;
-          showPlayer();
-          updatePlayerFast();
-        }).catch(err => console.log('Autoplay blocked'));
-        
+        const songIndex = songs.indexOf(song);
+        playSong(songIndex);
+      }
+    }        
         showToast({ title: track.title, artist: album.artist, cover: album.cover });
       }
     }
