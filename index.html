@@ -284,7 +284,7 @@
         display: flex !important;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 15px rgba(6,182,212,0.3) !important;
+        box-shadow: 0 0 20px rgba(6,182,212,0.4) !important;
       }
       .mh-icon i {
         color: white !important;
@@ -297,123 +297,79 @@
         gap: 3px !important;
       }
       .mh-title {
-        font-family: 'Space Grotesk', sans-serif !important;
         font-size: 24px !important;
         font-weight: 800 !important;
         color: #fff !important;
         line-height: 1 !important;
-        text-shadow: 0 2px 10px rgba(6,182,212,0.3) !important;
+        text-shadow: 0 0 15px rgba(6,182,212,0.5) !important;
       }
       .mh-sub {
-        font-family: 'Space Grotesk', sans-serif !important;
         font-size: 11px !important;
         font-weight: 600 !important;
         color: #06b6d4 !important;
         letter-spacing: 3px !important;
         text-transform: uppercase !important;
       }
-      .mh-logo {
+
+      /* Bottom Nav - GLASS VERSION */
+      .mobile-nav {
         display: flex !important;
-        align-items: center;
-        gap: 14px !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: rgba(10, 10, 20, 0.8) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        border-top: 1px solid rgba(6, 182, 212, 0.2) !important;
+        padding: 0 !important;
+        z-index: 99 !important;
+        height: 100px !important;
+        padding-bottom: env(safe-area-inset-bottom) !important;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.8) !important;
       }
-      .mh-icon {
-        width: 52px !important;
-        height: 52px !important;
-        background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
-        border-radius: 14px !important;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 15px rgba(6,182,212,0.3) !important;
-      }
-      .mh-icon i {
-        color: white !important;
-        width: 28px !important;
-        height: 28px !important;
-      }
-      .mh-text {
+      .mobile-nav-item {
+        flex: 1 !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 3px !important;
-      }
-      .mh-title {
-        font-family: 'Space Grotesk', sans-serif !important;
-        font-size: 24px !important;
-        font-weight: 800 !important;
-        color: #fff !important;
-        line-height: 1 !important;
-        text-shadow: 0 2px 10px rgba(6,182,212,0.2) !important;
-      }
-      .mh-sub {
-        font-family: 'Space Grotesk', sans-serif !important;
-        font-size: 11px !important;
-        font-weight: 600 !important;
-        color: #06b6d4 !important;
-        letter-spacing: 3px !important;
-      }
-
-      /* Section Title */
-      .section-title {
-        font-size: 18px !important;
-        font-weight: 700 !important;
-        color: #fff !important;
-        margin-bottom: 18px !important;
-        padding-left: 14px !important;
-        border-left: 3px solid #06b6d4 !important;
-        text-shadow: 0 2px 10px rgba(6,182,212,0.3) !important;
-      }
-
-      /* Section */
-      .section {
-        margin-bottom: 32px !important;
-      }
-
-      /* Grid - 2 COLONNE */
-      .grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 14px !important;
-      }
-
-      /* Cards - STILE PREMIUM */
-      .card {
-        background: linear-gradient(145deg, #12121e 0%, #0f0f1a 100%) !important;
-        border: 1px solid rgba(6, 182, 212, 0.15) !important;
-        border-radius: 16px !important;
-        padding: 0 !important;
-        overflow: hidden !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        color: rgba(255,255,255,0.4) !important;
         cursor: pointer !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
-        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        background: transparent !important;
+        border: none !important;
+        position: relative !important;
+        transition: all 0.3s ease !important;
       }
-      .card:active {
-        transform: scale(0.97) !important;
-        background: #1a1a2a !important;
+      .mobile-nav-item i {
+        width: 58px !important;
+        height: 58px !important;
+        transition: all 0.3s ease !important;
       }
-      .card-img {
-        width: 100% !important;
-        aspect-ratio: 1 !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        object-fit: cover !important;
+      .mobile-nav-item.active {
+        color: #06b6d4 !important;
       }
-      .card-info {
-        padding: 14px !important;
-        overflow: hidden !important;
+      .mobile-nav-item.active i {
+        transform: translateY(-5px) scale(1.1) !important;
+        filter: drop-shadow(0 0 10px rgba(6,182,212,0.6)) !important;
       }
-      .card-title {
-        font-size: 14px !important;
+      .mobile-nav-item.active::before {
+        content: '' !important;
+        position: absolute !important;
+        bottom: 10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 4px !important;
+        height: 4px !important;
+        background: #06b6d4 !important;
+        border-radius: 50% !important;
+        box-shadow: 0 0 10px #06b6d4 !important;
+      }
+      .mobile-nav-item span {
         font-weight: 600 !important;
-        color: #fff !important;
-        margin-bottom: 4px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-        display: block !important;
-        line-height: 1.3 !important;
-        text-align: center !important;
-        padding: 0 4px !important;
+        font-size: 10px !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
       }
       .card-artist {
         font-size: 12px !important;
@@ -615,100 +571,6 @@
       }
       .search-input::placeholder {
         color: rgba(255,255,255,0.4) !important;
-      }
-
-      /* Mobile Bottom Nav - SOLO ICONE GRANDE */
-      .mobile-nav {
-        display: flex !important;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        background: #06060d !important;
-        border-top: 1px solid rgba(6, 182, 212, 0.25) !important;
-        padding: 0 !important;
-        z-index: 99 !important;
-        height: 100px !important;
-        padding-bottom: env(safe-area-inset-bottom) !important;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.5) !important;
-      }
-      .mobile-nav-item {
-        flex: 1 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        color: rgba(255,255,255,0.5) !important;
-        cursor: pointer !important;
-        background: transparent !important;
-        border: none !important;
-        position: relative !important;
-      }
-      .mobile-nav-item span {
-        display: none !important;
-      }
-      .mobile-nav-item.active {
-        color: #06b6d4 !important;
-      }
-      .mobile-nav-item.active::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 36px !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, transparent, #06b6d4, transparent) !important;
-        border-radius: 0 0 2px 2px !important;
-      }
-      .mobile-nav-item:active {
-        background: rgba(6, 182, 212, 0.15) !important;
-      }
-      .mobile-nav-item i {
-        width: 58px !important;
-        height: 58px !important;
-      }
-      .mobile-nav-item {
-        flex: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 4px !important;
-        padding: 8px 4px !important;
-        color: rgba(255,255,255,0.5) !important;
-        font-size: 10px !important;
-        font-weight: 500 !important;
-        cursor: pointer !important;
-        background: transparent !important;
-        border: none !important;
-        -webkit-tap-highlight-color: transparent !important;
-        position: relative !important;
-      }
-      .mobile-nav-item.active {
-        color: #06b6d4 !important;
-      }
-      .mobile-nav-item.active::before {
-        content: '' !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 36px !important;
-        height: 3px !important;
-        background: linear-gradient(90deg, transparent, #06b6d4, transparent) !important;
-        border-radius: 0 0 2px 2px !important;
-      }
-      .mobile-nav-item:active {
-        background: rgba(6, 182, 212, 0.15) !important;
-      }
-      .mobile-nav-item i {
-        width: 58px !important;
-        height: 58px !important;
-      }
-      .mobile-nav-item span {
-        font-weight: 600 !important;
-        letter-spacing: 0.5px !important;
-        text-transform: uppercase !important;
       }
 
       /* Navigation - hide desktop nav */
@@ -5560,10 +5422,14 @@
       * {
         -webkit-tap-highlight-color: transparent !important;
         box-sizing: border-box !important;
+        font-family: 'Space Grotesk', sans-serif !important;
       }
       .app-container {
         margin-left: 0 !important;
-        background: radial-gradient(circle at top, #1a1a2e 0%, #0a0a14 100%) !important;
+        background: #05050a !important;
+        background-image: 
+          radial-gradient(circle at 50% 0%, #1a1a3a 0%, transparent 50%),
+          radial-gradient(circle at 0% 100%, #0a1a2a 0%, transparent 50%) !important;
         min-height: 100vh !important;
       }
       .main-content {
@@ -8555,9 +8421,6 @@
       if (song) {
         const songIndex = songs.indexOf(song);
         playSong(songIndex);
-      }
-    }        
-        showToast({ title: track.title, artist: album.artist, cover: album.cover });
       }
     }
 
