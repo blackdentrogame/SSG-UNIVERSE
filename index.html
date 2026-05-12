@@ -252,7 +252,9 @@
 
       /* App Container */
       .app-container {
+        display: block !important;
         margin-left: 0 !important;
+        width: 100% !important;
         background: #0a0a14 !important;
       }
 
@@ -5495,12 +5497,15 @@
         font-family: 'Space Grotesk', sans-serif !important;
       }
       .app-container {
+        display: block !important;
         margin-left: 0 !important;
+        width: 100% !important;
         background: #05050a !important;
         background-image: 
           radial-gradient(circle at 50% 0%, #1a1a3a 0%, transparent 50%),
           radial-gradient(circle at 0% 100%, #0a1a2a 0%, transparent 50%) !important;
         min-height: 100vh !important;
+        height: auto !important;
       }
       .main-content {
         margin-left: 0 !important;
@@ -7529,21 +7534,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="mobile-nav">
-    <div class="nav-item active" onclick="showSection('music-section', this)">
-      <i data-lucide="music" class="mobile-icon"></i>
-      <span>Musica</span>
-    </div>
-    <div class="nav-item" onclick="showSection('video-section', this)">
-      <i data-lucide="play-circle" class="mobile-icon"></i>
-      <span>Video</span>
-    </div>
-    <div class="nav-item" onclick="showSection('playlist-section', this)">
-      <i data-lucide="heart" class="mobile-icon"></i>
-      <span>Preferiti</span>
     </div>
   </div>
 
