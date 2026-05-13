@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ssg-universe-v10';
+const CACHE_NAME = 'ssg-universe-v11';
 const urlsToCache = [
   '/SSG-UNIVERSE/',
   '/SSG-UNIVERSE/index.html',
@@ -7,6 +7,7 @@ const urlsToCache = [
   '/SSG-UNIVERSE/cover.jpg',
   '/SSG-UNIVERSE/ssg-logo.jpeg'
 ];
+const AUDIO_CACHE = 'ssg-universe-audio-v1';
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -21,7 +22,7 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName !== CACHE_NAME && cacheName !== AUDIO_CACHE) {
             return caches.delete(cacheName);
           }
         })
@@ -32,9 +33,22 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.url.includes('supabase.co') || 
-      event.request.url.includes('.mp3') || 
-      event.request.url.includes('.wav')) {
+  const isAudio = event.request.url.includes('.mp3') || 
+                  event.request.url.includes('.wav') ||
+                  event.request.url.includes('supabase.co');
+  
+  if (isAudio) {
+    event.respondWith(
+      caches.open(AUDIO_CACHE).then(cache => {
+        return cache.match(event.request).then(cached => {
+          const fetchPromise = fetch(event.request).then(response => {
+            if (response.ok) cache.put(event.request, response.clone());
+            return response;
+          }).catch(() => cached);
+          return cached || fetchPromise;
+        });
+      })
+    );
     return;
   }
   
