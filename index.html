@@ -5636,6 +5636,10 @@
       .full-progress-bg, .full-player-content, .header, .section-title {
         contain: layout style paint !important;
       }
+      .section {
+        content-visibility: auto !important;
+        contain-intrinsic-size: 400px !important;
+      }
       .main-content {
         margin-left: 0 !important;
         width: 100% !important;
@@ -8216,6 +8220,8 @@
     const audio = document.getElementById('audio-player');
     const audioPreloader = document.getElementById('audio-preloader');
     let preloadedIndex = -1;
+    let preloadedIndex2 = -1;
+    let audioPreloader2;
     const player = document.getElementById('player');
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     
@@ -8269,10 +8275,6 @@
     let playRetryCount = 0;
     
     audio.addEventListener('canplay', () => {
-      resetPlayRetry();
-    });
-    
-    audio.addEventListener('canplaythrough', () => {
       resetPlayRetry();
     });
     
@@ -9307,16 +9309,28 @@
 
     function preloadNextSong() {
       if (!songs || songs.length <= 1) return;
-      let nextIdx;
+      let nextIdx, nextIdx2;
       if (isShuffle) {
         do { nextIdx = Math.floor(Math.random() * songs.length); }
         while (nextIdx === currentIndex && songs.length > 1);
+        do { nextIdx2 = Math.floor(Math.random() * songs.length); }
+        while ((nextIdx2 === currentIndex || nextIdx2 === nextIdx) && songs.length > 2);
       } else {
         nextIdx = (currentIndex + 1) % songs.length;
+        nextIdx2 = (currentIndex + 2) % songs.length;
       }
       if (nextIdx !== preloadedIndex && songs[nextIdx]) {
         preloadedIndex = nextIdx;
         audioPreloader.src = songs[nextIdx].url;
+      }
+      // Preload a 3rd song into a hidden audio element if available
+      if (songs.length > 2 && nextIdx2 !== preloadedIndex2 && songs[nextIdx2]) {
+        preloadedIndex2 = nextIdx2;
+        if (!audioPreloader2) {
+          audioPreloader2 = new Audio();
+          audioPreloader2.preload = 'auto';
+        }
+        audioPreloader2.src = songs[nextIdx2].url;
       }
     }
 
@@ -9338,10 +9352,11 @@
       haptic(8);
       if (isPlaying) {
         audio.pause();
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('playing'));
+        const cards = cachedDOM.cards || document.querySelectorAll('.card');
+        cards.forEach(c => c.classList.remove('playing'));
       } else {
         audio.play().catch(() => {});
-        const cards = document.querySelectorAll('.card');
+        const cards = cachedDOM.cards || document.querySelectorAll('.card');
         if (cards[currentIndex]) cards[currentIndex].classList.add('playing');
       }
       isPlaying = !isPlaying;
@@ -9496,7 +9511,7 @@
     
     audio.addEventListener('timeupdate', () => {
       const now = Date.now();
-      if (now - lastTimeUpdate < 250) return;
+      if (now - lastTimeUpdate < 150) return;
       lastTimeUpdate = now;
       if (!rafPending) {
         rafPending = true;
@@ -9506,39 +9521,55 @@
 
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results');
-
+    
+    // Build song index map for O(1) lookup
+    const songIndexMap = new Map();
+    songs.forEach((s, i) => songIndexMap.set(s, i));
+    
+    let searchTimeout;
     searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase().trim();
-      if (query.length < 1) {
-        searchResults.classList.remove('show');
-        return;
-      }
-      const results = songs.filter(s => 
-        s.title.toLowerCase().includes(query) || 
-        s.artist.toLowerCase().includes(query)
-      );
-      if (results.length === 0) {
-        searchResults.innerHTML = '<div class="no-results">Nessun risultato</div>';
-      } else {
-        searchResults.innerHTML = results.map(s => `
-          <div class="search-result-item" onclick="playSong(${songs.indexOf(s)}); searchResults.classList.remove('show'); searchInput.value = '';">
-            <div class="search-result-info">
-              <div class="search-result-title">${s.title}</div>
-              <div class="search-result-artist">${s.artist}</div>
-            </div>
-            <div class="search-result-actions">
-              <button class="search-play-btn" onclick="event.stopPropagation(); playSong(${songs.indexOf(s)})">
-                <i data-lucide="play" size="16"></i>
-              </button>
-              <button class="search-like-btn ${likedSongs.has(songs.indexOf(s)) ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike(${songs.indexOf(s)}, event)">
-                <i data-lucide="heart" size="16"></i>
-              </button>
-            </div>
-          </div>
-        `).join('');
-        refreshIcons();
-      }
-      searchResults.classList.add('show');
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const query = e.target.value.toLowerCase().trim();
+        if (query.length < 1) {
+          searchResults.classList.remove('show');
+          return;
+        }
+        const results = [];
+        for (let i = 0; i < songs.length; i++) {
+          if (results.length >= 20) break;
+          const s = songs[i];
+          if (s.title.toLowerCase().includes(query) || s.artist.toLowerCase().includes(query)) {
+            results.push(i);
+          }
+        }
+        if (results.length === 0) {
+          searchResults.innerHTML = '<div class="no-results">Nessun risultato</div>';
+        } else {
+          searchResults.innerHTML = results.map(i => {
+            const s = songs[i];
+            const liked = likedSongs.has(i) ? ' liked' : '';
+            return `
+              <div class="search-result-item" onclick="playSong(${i}); searchResults.classList.remove('show'); searchInput.value = '';">
+                <div class="search-result-info">
+                  <div class="search-result-title">${s.title}</div>
+                  <div class="search-result-artist">${s.artist}</div>
+                </div>
+                <div class="search-result-actions">
+                  <button class="search-play-btn" onclick="event.stopPropagation(); playSong(${i})">
+                    <i data-lucide="play" size="16"></i>
+                  </button>
+                  <button class="search-like-btn${liked}" onclick="event.stopPropagation(); toggleLike(${i}, event)">
+                    <i data-lucide="heart" size="16"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+          refreshIcons();
+        }
+        searchResults.classList.add('show');
+      }, 80);
     });
 
     searchInput.addEventListener('blur', () => {
