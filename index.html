@@ -90,6 +90,9 @@
     
     /* Mobile Performance Optimizations - hide decorative elements only */
     @media (max-width: 768px) {
+      html {
+        overflow-x: hidden !important;
+      }
       .particle,
       .shooting-star,
       .cursor-glow,
@@ -7941,7 +7944,7 @@
       </div>
       <div class="tv-screen">
         <div class="tv-screen-content">
-          <video id="inline-video" controls playsinline></video>
+          <video id="inline-video" controls playsinline preload="auto"></video>
           <div class="tv-scanlines"></div>
         </div>
         <div class="tv-reflection"></div>
@@ -8012,7 +8015,7 @@
       { id: 1, title: 'CACAO LIVE - SSG INEDITO ASSURDO', url: `${VIDEO_BASE}/CACAO%20LIVE%20-%20SSG%20*INEDITO*%20*ASSURDO*.mp4` },
       { id: 2, title: 'Puozzo Car - Official Song - SSG', url: `${VIDEO_BASE}/Puozzo%20Car%20-Official%20Song-%20SSG.mp4` },
       { id: 3, title: 'Torna da me - Official Song - SSG', url: `${VIDEO_BASE}/Torna%20da%20me%20-%20Official%20Song%20-%20SSG.mp4` },
-      { id: 4, title: 'Smock on the water - Official Song - SSG', url: `${VIDEO_BASE}/Smock%20on%20the%20water%20-%20Official%20Song%20-%20SSG.mp4` }
+      { id: 4, title: 'Smoke on the water - Official Song - SSG', url: `${VIDEO_BASE}/Smoke%20on%20the%20water%20-%20Official%20Song%20-%20SSG.mp4` }
     ];
     
     function renderVideos() {
@@ -8043,6 +8046,7 @@
         if (modalTitle) modalTitle.textContent = video.title;
         modal.classList.add('show');
         videoEl.src = video.url;
+        videoEl.load();
         videoEl.play().catch(() => {});
         refreshIcons();
       }
