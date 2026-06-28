@@ -119,14 +119,14 @@
         display: none !important;
       }
 
-      /* MOBILE MINI PLAYER - SEMPLICE */
+      /* MOBILE MINI PLAYER */
       .player-bar {
         position: fixed !important;
         bottom: 82px !important;
         left: 10px !important;
         right: 10px !important;
         width: auto !important;
-        height: 60px !important;
+        height: 64px !important;
         background: linear-gradient(135deg, #0f0f1a 0%, #12121f 100%) !important;
         border: 1px solid rgba(6, 182, 212, 0.3) !important;
         border-radius: 16px !important;
@@ -150,12 +150,12 @@
         padding: 8px 6px 8px 8px !important;
       }
       .player-info img {
-        width: 40px !important;
-        height: 40px !important;
-        border-radius: 8px !important;
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 10px !important;
         object-fit: cover !important;
         flex-shrink: 0 !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
       }
       .player-title {
         font-size: 13px !important;
@@ -183,8 +183,8 @@
         flex: 1 !important;
       }
       .mp-btn {
-        width: 18px !important;
-        height: 18px !important;
+        width: 20px !important;
+        height: 20px !important;
         background: rgba(255,255,255,0.08) !important;
         border: none !important;
         border-radius: 50% !important;
@@ -200,19 +200,19 @@
         background: rgba(255,255,255,0.15) !important;
       }
       .mp-btn i {
-        width: 8px !important;
-        height: 8px !important;
+        width: 9px !important;
+        height: 9px !important;
       }
       .mp-btn-play {
-        width: 22px !important;
-        height: 22px !important;
+        width: 26px !important;
+        height: 26px !important;
         background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
         border-radius: 50% !important;
         box-shadow: 0 2px 8px rgba(6,182,212,0.3) !important;
       }
       .mp-btn-play i {
-        width: 9px !important;
-        height: 9px !important;
+        width: 10px !important;
+        height: 10px !important;
         color: #fff !important;
       }
       .mp-btn-play:active {
@@ -222,8 +222,8 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        width: 18px !important;
-        height: 18px !important;
+        width: 20px !important;
+        height: 20px !important;
         background: rgba(255,255,255,0.08) !important;
         border: none !important;
         border-radius: 50% !important;
@@ -235,8 +235,8 @@
         background: rgba(255,255,255,0.15) !important;
       }
       .player-close-btn i {
-        width: 8px !important;
-        height: 8px !important;
+        width: 9px !important;
+        height: 9px !important;
       }
 
       /* App Container */
@@ -5186,11 +5186,11 @@
       box-shadow: 0 35px 70px rgba(0,0,0,0.8), 0 0 60px rgba(6, 182, 212, 0.25), 0 0 100px rgba(6, 182, 212, 0.15);
     }
     .full-player.playing .full-player-art {
-      animation: full-art-spin 12s linear infinite;
+      animation: art-breathe-desktop 3s ease-in-out infinite;
     }
-    @keyframes full-art-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes art-breathe-desktop {
+      0%, 100% { transform: scale(1); box-shadow: 0 35px 70px rgba(0,0,0,0.8), 0 0 60px rgba(6, 182, 212, 0.25), 0 0 100px rgba(6, 182, 212, 0.15); }
+      50% { transform: scale(1.015); box-shadow: 0 35px 70px rgba(0,0,0,0.8), 0 0 80px rgba(6, 182, 212, 0.35), 0 0 120px rgba(6, 182, 212, 0.25); }
     }
     .full-player-art-container::before {
       content: '';
@@ -5919,33 +5919,28 @@
         display: inline-block !important;
       }
       .full-player.playing .full-player-art {
-        animation: full-art-spin-mobile 16s linear infinite !important;
-        box-shadow: 0 25px 70px rgba(0,0,0,0.8), 0 0 60px rgba(6, 182, 212, 0.35), 0 0 0 2px rgba(6,182,212,0.25) !important;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.8), 0 0 80px rgba(6, 182, 212, 0.4), 0 0 0 2px rgba(6,182,212,0.25) !important;
+        animation: art-breathe 3s ease-in-out infinite !important;
       }
-      @keyframes full-art-spin-mobile {
-        from { rotate: 0deg; }
-        to { rotate: 360deg; }
+      @keyframes art-breathe {
+        0%, 100% { transform: scale(1); box-shadow: 0 25px 70px rgba(0,0,0,0.8), 0 0 80px rgba(6, 182, 212, 0.4), 0 0 0 2px rgba(6,182,212,0.25); }
+        50% { transform: scale(1.02); box-shadow: 0 25px 70px rgba(0,0,0,0.8), 0 0 100px rgba(6, 182, 212, 0.6), 0 0 0 3px rgba(6,182,212,0.35); }
       }
       .full-player.playing .full-player-art-container::before {
         content: '' !important;
         position: absolute !important;
-        inset: -6px !important;
-        border-radius: 28px !important;
-        background: conic-gradient(from var(--angle, 0deg), #06b6d4, #22d3ee, #67e8f9, #06b6d4) !important;
-        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px)) !important;
-        mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2px)) !important;
-        animation: ring-rotate-mobile 2s linear infinite !important;
-        opacity: 0.7 !important;
+        inset: -4px !important;
+        border-radius: 26px !important;
+        background: conic-gradient(from 0deg, #06b6d4, #22d3ee, #67e8f9, #ec4899, #8b5cf6, #06b6d4) !important;
+        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px)) !important;
+        mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 1px)) !important;
+        animation: ring-pulse 2s ease-in-out infinite !important;
+        opacity: 0.8 !important;
         z-index: -1 !important;
       }
-      @property --angle {
-        syntax: '<angle>';
-        initial-value: 0deg;
-        inherits: false;
-      }
-      @keyframes ring-rotate-mobile {
-        from { --angle: 0deg; }
-        to { --angle: 360deg; }
+      @keyframes ring-pulse {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.05); }
       }
       .full-player.playing .full-player-title {
         animation: title-glow-mobile 2s ease-in-out infinite !important;
@@ -6846,7 +6841,23 @@
       width: 0%;
       background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899);
       border-radius: 3px;
-      transition: width 0.3s ease;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .loading-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: loading-shine 1.5s ease-in-out infinite;
+    }
+    @keyframes loading-shine {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(50%); }
     }
     .loading-status {
       font-size: 14px;
