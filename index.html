@@ -8286,6 +8286,17 @@
     audio.addEventListener('canplay', () => {
       resetPlayRetry();
     });
+    audio.addEventListener('error', () => {
+      if (isSongSwitching) {
+        clearTimeout(songSwitchTimeout);
+        isSongSwitching = false;
+        if (pendingSongIndex !== -1 && pendingSongIndex !== currentIndex) {
+          const nextIdx = pendingSongIndex;
+          pendingSongIndex = -1;
+          playSong(nextIdx);
+        }
+      }
+    });
     
     const likedSongs = new Set();
     const userPlaylists = [
@@ -9376,7 +9387,6 @@
 
     function nextSong() {
       if (isRepeat && isPlaying) {
-        if (isSongSwitching) return;
         haptic(8);
         audio.currentTime = 0;
         audio.play().catch(() => {});
@@ -9519,9 +9529,6 @@
     }
     
     audio.addEventListener('timeupdate', () => {
-      const now = Date.now();
-      if (now - lastTimeUpdate < 150) return;
-      lastTimeUpdate = now;
       if (!rafPending) {
         rafPending = true;
         requestAnimationFrame(updateProgress);
